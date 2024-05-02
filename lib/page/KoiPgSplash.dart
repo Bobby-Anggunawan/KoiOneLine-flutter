@@ -19,7 +19,7 @@ class KoiPgSplash extends StatefulWidget {
   ///
   /// * Sebaiknya diakhir fungsi ini redirect ke halaman lain. Kalau tidak, halaman ini akan terus ditampilkan
   /// * return false kalau tidak jadi redirect
-  const KoiPgSplash.redirectAfterFunction({Key? key, required Future<bool?> Function(BuildContext context) initialization, this.redirectAfter, required String redirectTo, this.content}) : redirectTo = redirectTo, initialization = initialization, super(key: key);
+  const KoiPgSplash.redirectAfterFunction({Key? key, required Future<bool?> initialization, this.redirectAfter, required String redirectTo, this.content}) : redirectTo = redirectTo, initialization = initialization, super(key: key);
 
   /// apa yang ditampilkan selama splash screen. Jika ini null, maka widget default akan ditampilkan
   final Widget? content;
@@ -30,7 +30,7 @@ class KoiPgSplash extends StatefulWidget {
   ///
   /// * Sebaiknya diakhir fungsi ini redirect ke halaman lain. Kalau tidak, halaman ini akan terus ditampilkan
   /// * return false kalau tidak jadi redirect
-  final Future<bool?> Function(BuildContext context)? initialization;
+  final Future<bool?>? initialization;
 
   /// optional, path pada route kemana user akan diarahkan saat fungsi [initialization] selesai. Jadi ini hanya diisi jika [initialization] tidak null. Jika [initialization] dan variable ini diisi, tidak ada yang akan terjadi
   final String? redirectTo;
@@ -68,8 +68,8 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
       }
 
       /// jalankan fungsi
-      widget.initialization!(context)!.then((value){
 
+      widget.initialization!.then((value){
         // periksa tiap detik apa timer selesai
         atimer = Timer.periodic(
             Duration(seconds: 1),
