@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:koi_one_line/koi_one_line.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -138,5 +140,19 @@ extension FromList<T> on List<T>{
     //end---tambah spacing
 
     return ret;
+  }
+
+  /// mereturn satu elemen random yang ada di dalam list ini.
+  ///
+  /// **WARNING**
+  //  * kalau list ini kosong, getter ini akan menghasilkan error karena tidak ada yang bisa di return
+  T get koiGetRandomElement{
+
+    if(this.isEmpty){
+      throw AssertionError("list kosong.. untuk menggunakan getter koiGetRandomElement, list tidak boleh kosong");
+    }
+
+    var random = Random();
+    return this[random.nextInt(this.length)];
   }
 }

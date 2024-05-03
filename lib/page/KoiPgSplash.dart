@@ -2,6 +2,8 @@ import "dart:async";
 import "dart:js_interop";
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:flutter_svg/svg.dart";
+import "package:koi_one_line/extension/FromList.dart";
 
 
 /// builder untuk membuat halaman splashscreen.
@@ -117,8 +119,24 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
 class _DefaultSplash extends StatelessWidget {
   const _DefaultSplash({Key? key}) : super(key: key);
 
+  final List<String> illustration = const [
+    "packages/koi_one_line/assets/undraw_loading_re_5axr.svg",
+    "packages/koi_one_line/assets/undraw_synchronize_re_4irq.svg",
+    "packages/koi_one_line/assets/undraw_problem_solving_re_4gq3.svg",
+    "packages/koi_one_line/assets/undraw_counting_stars_re_smvv.svg",
+    "packages/koi_one_line/assets/undraw_back_home_nl-5-c.svg",
+    "packages/koi_one_line/assets/undraw_winter_road_mcqj.svg",
+    "packages/koi_one_line/assets/undraw_dream_world_re_x2yl.svg",
+    "packages/koi_one_line/assets/undraw_dreamer_re_9tua.svg",
+    "packages/koi_one_line/assets/undraw_step_to_the_sun_nxqq.svg",
+    "packages/koi_one_line/assets/undraw_logic_re_nyb4.svg",
+    "packages/koi_one_line/assets/undraw_donut_love_kau1.svg",
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SvgPicture.asset(
+        illustration.koiGetRandomElement
+    );
   }
 }
