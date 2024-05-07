@@ -5,7 +5,8 @@ import 'package:koi_one_line/koi_one_line.dart';
 enum FieldType{
   text,
   password,
-  widget
+  widget,
+  select
 }
 
 /// page untuk mempermudah membuat form dengan cepat. Dapat digunakan untuk membuat page login
@@ -51,6 +52,10 @@ class KoiPgForm extends StatefulWidget {
   /// Note, key widget harus sama dengan key yang ditulis di field
   final Map<String, Widget> widgetField;
 
+  /// menampung daftar isi default value dari field select/dropdown
+  /// Note, key widget harus sama dengan key yang ditulis di field
+  final Map<String, List<String>> selectField;
+
   /// fungsi yang di trigger kalau tombol submit ditekan. Menggunakan parameter [field] yang merupakan isi dari semua filed yang ada
   final void Function(Map<String, dynamic>) onSubmit;
 
@@ -71,6 +76,11 @@ class _KoiPgFormState extends State<KoiPgForm> {
       if(value == FieldType.widget){
         if(widget.widgetField[key] == null){
           throw AssertionError("Widget ${key} belum dimasukkan ke widgetField");
+        }
+      }
+      if(value == FieldType.select){
+        if(widget.selectField[key] == null){
+          throw AssertionError("Value ${key} belum dimasukkan ke selectField");
         }
       }
     });
@@ -139,6 +149,14 @@ class _KoiPgFormState extends State<KoiPgForm> {
                         else if(widget.field.values.toList()[index] == FieldType.widget){
                           return widget.widgetField[widget.field.keys.toList()[index]]!;
                         }
+                        else if(widget.field.values.toList()[index] == FieldType.select){
+                          return _DropdownField(
+                            onChange: (selected) {
+                              valueToReturn[widget.field.keys.toList()[index]] = selected;
+                            }, initialData: widget.selectField[widget.field.keys.toList()[index]]!,
+                            label: widget.field.keys.toList()[index],
+                          );
+                        }
                         else{
                           throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
                         }
@@ -190,6 +208,36 @@ class _PasswordFieldState extends State<_PasswordField> {
             },
           )
       ),
+    );
+  }
+}
+
+class _DropdownField extends StatefulWidget {
+  const _DropdownField({Key? key, required this.onChange, required this.initialData, required this.label}) : super(key: key);
+
+  final Function(String?) onChange;
+  final List<String> initialData;
+  final String label;
+
+  @override
+  State<_DropdownField> createState() => _DropdownFieldState();
+}
+
+class _DropdownFieldState extends State<_DropdownField> {
+  @override
+  Widget build(BuildContext context) {
+    return ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownMenu<String>(
+          label: Text(widget.label),
+          onSelected: (newText) => widget.onChange(newText),
+          dropdownMenuEntries: List.generate(widget.initialData.length, (index){
+            return DropdownMenuEntry(
+                value: widget.initialData[index],
+                label: widget.initialData[index]
+            );
+          }),
+        )
     );
   }
 }
