@@ -33,7 +33,10 @@ class KoiHttp{
   /// * header: isi header dari request ini. Gunakan fungsi BaseRequestHeader().addKey() untuk menambah key ke header ini
   /// * body: isi body dari request ini(dengan tipe form). Gunakan fungsi BaseRequestBody().addKey() untuk menambah key ke body ini
   /// * bodyRaw<optional>: kalau isi body bukan form, gunakan parameter bodyRaw untuk mengisi data body request ini(dalam string, tidak bisa mengirim file)
-  static Future<dynamic> basicRequest(String url, BasicRequestUriParam? uriParam, RequestMethod method, BasicRequestHeader? header, FormRequestBody? body, {String? bodyRaw = null})async{
+  ///
+  /// **WARNING**
+  /// * class ini hanya akan mereturn sesuatu kalau statusCode-nya 200. kalau status code selain 200, class ini mereturn null
+  static Future<RequestResult> basicRequest(String url, BasicRequestUriParam? uriParam, RequestMethod method, BasicRequestHeader? header, FormRequestBody? body, {String? bodyRaw = null})async{
     late Request request;
     if(uriParam != null){
       request = http.Request(method.name, Uri.parse(url+uriParam.uriParam));
@@ -50,18 +53,28 @@ class KoiHttp{
     http.StreamedResponse response = await request.send();
     var ret = await response.stream.bytesToString();
 
-    if(response.statusCode == 200){
-      try{
-        return jsonDecode(ret);
-      }
-      catch(e){
-        return ret;
-      }
-    }
 
-    //kalo respons error, dia return null
-    else{
-      return null;
+    return RequestResult(rawData: ret, statusCode: response.statusCode);
+  }
+}
+
+/// kalau hasil bisa diparse jadi json, class ini akan langsung memparse hasil jadi json
+///
+/// kalau hasil tidak bisa di parse, class ini akan menampilkan hasil apa adanya
+class RequestResult{
+
+  /// kalau ini json, maka hasil sudah diproses di "jsonDecode" jadi tinggal akses seperti dynamic class
+  ///
+  /// kalau ini bukan json, maka ini disimpan sebagai string biasa
+  dynamic data;
+  int statusCode;
+
+  RequestResult({required dynamic rawData, required this.statusCode}){
+    try{
+      data = jsonDecode(rawData);
+    }
+    catch(e){
+      data = rawData;
     }
   }
 }
