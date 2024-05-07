@@ -4,7 +4,8 @@ import 'package:koi_one_line/koi_one_line.dart';
 
 enum FieldType{
   text,
-  password
+  password,
+  widget
 }
 
 /// page untuk mempermudah membuat form dengan cepat. Dapat digunakan untuk membuat page login
@@ -14,6 +15,7 @@ class KoiPgForm extends StatefulWidget {
     required this.title,
     required this.field,
     required this.onSubmit,
+    this.widgetField = const {},
     this.formMaxWidth = 350,
     this.submitButton,
     this.background
@@ -45,6 +47,10 @@ class KoiPgForm extends StatefulWidget {
   /// String adalah nama field dan FieldType ada tipe dari dield ini
   final Map<String, FieldType> field;
 
+  /// menampung daftar widget lain yang dimasukkan ke form ini, misalnya teks atau field custom.
+  /// Note, key widget harus sama dengan key yang ditulis di field
+  final Map<String, Widget> widgetField;
+
   /// fungsi yang di trigger kalau tombol submit ditekan. Menggunakan parameter [field] yang merupakan isi dari semua filed yang ada
   final void Function(Map<String, dynamic>) onSubmit;
 
@@ -59,6 +65,18 @@ class _KoiPgFormState extends State<KoiPgForm> {
 
   @override
   Widget build(BuildContext context) {
+
+    //start-cek apa semua widget yang didaftar di field sudah dimasukkan ke widgetField
+    widget.field.forEach((key, value) {
+      if(value == FieldType.widget){
+        if(widget.widgetField[key] != null){
+          throw AssertionError("Widget ${key} belum dimasukkan ke widgetField");
+        }
+      }
+    });
+    //end---cek apa semua widget yang didaftar di field sudah dimasukkan ke widgetField
+
+
 
     late Widget buildTombolSubmit;
     if(widget.submitButton != null){
@@ -117,6 +135,9 @@ class _KoiPgFormState extends State<KoiPgForm> {
                               valueToReturn[widget.field.keys.toList()[index]] = newText;
                             },
                           );
+                        }
+                        else if(widget.field.values.toList()[index] == FieldType.widget){
+                          return widget.widgetField[widget.field.keys.toList()[index]]!;
                         }
                         else{
                           throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
