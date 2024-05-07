@@ -69,7 +69,7 @@ class _KoiPgFormState extends State<KoiPgForm> {
     //start-cek apa semua widget yang didaftar di field sudah dimasukkan ke widgetField
     widget.field.forEach((key, value) {
       if(value == FieldType.widget){
-        if(widget.widgetField[key] != null){
+        if(widget.widgetField[key] == null){
           throw AssertionError("Widget ${key} belum dimasukkan ke widgetField");
         }
       }
