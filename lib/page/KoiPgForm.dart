@@ -17,6 +17,7 @@ class KoiPgForm extends StatefulWidget {
     required this.field,
     required this.onSubmit,
     this.widgetField = const {},
+    this.selectField = const {},
     this.formMaxWidth = 350,
     this.submitButton,
     this.background
