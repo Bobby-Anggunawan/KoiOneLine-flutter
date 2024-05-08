@@ -86,7 +86,8 @@ enum RequestMethod{
   GET,
   PUT,
   POST,
-  PATCH
+  PATCH,
+  DELETE
 }
 
 /// untuk buat parameter uri.
