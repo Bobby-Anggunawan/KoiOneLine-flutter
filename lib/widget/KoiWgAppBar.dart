@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 enum AppBarTipe{
@@ -22,8 +23,14 @@ class KoiWgAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      actions: action,
-    );
+    if(type == AppBarTipe.AppbarClose){
+      return AppBar(
+        actions: action,
+        automaticallyImplyLeading: false,
+      );
+    }
+    else{
+      throw MissingPluginException("KoiWgAppBar: type belum diimplementasikan");
+    }
   }
 }
