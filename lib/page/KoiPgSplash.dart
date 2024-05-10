@@ -1,7 +1,5 @@
 import "dart:async";
-import "dart:js_interop";
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import "package:flutter_svg/svg.dart";
 import "package:koi_one_line/extension/FromList.dart";
 

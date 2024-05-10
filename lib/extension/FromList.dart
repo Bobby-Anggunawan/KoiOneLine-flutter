@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:koi_one_line/koi_one_line.dart';
 import 'package:flutter/cupertino.dart';
 
 extension FromList<T> on List<T>{
