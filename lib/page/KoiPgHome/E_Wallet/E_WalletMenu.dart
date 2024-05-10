@@ -70,6 +70,8 @@ class E_WalletMenu extends StatelessWidget {
       crossAxisCount: columnCount,
       children: buildTopMenu,
       childAspectRatio: menuAspectRatio,
+      mainAxisSpacing: context.koiSpacing.autoBeetweenPane,
+      crossAxisSpacing: context.koiSpacing.autoBeetweenPane,
     );
   }
 }
