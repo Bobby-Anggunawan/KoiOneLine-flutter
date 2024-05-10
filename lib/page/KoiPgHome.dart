@@ -1,7 +1,4 @@
-import "dart:js";
-
 import "package:flutter/material.dart";
-import "package:koi_one_line/page/KoiPgHome/E_Wallet/E_WalletBalance.dart";
 import "package:koi_one_line/page/KoiPgHome/HomeMenuIcon.dart";
 import "KoiPgHome/E_Wallet/E_Wallet.dart";
 
