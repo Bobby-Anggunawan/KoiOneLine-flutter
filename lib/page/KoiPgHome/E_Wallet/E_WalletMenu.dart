@@ -11,10 +11,11 @@ class E_WalletMenu extends StatelessWidget {
     required this.topMenu,
     this.columnCount = 4,
     this.rowCount = 2,
-    this.menuAspectRatio = 1/1
+    this.menuAspectRatio = 3/4
   }) : super(key: key);
 
   /// aspec ratio dari tiap icon menu. Kalau 1/1 artinya kotak, 4/3 artinya panjang kesamping
+  /// diaplikasikan di gridview
   final double menuAspectRatio;
 
   /// berapa row max yang ditampilkan di top menu
@@ -70,8 +71,8 @@ class E_WalletMenu extends StatelessWidget {
       crossAxisCount: columnCount,
       children: buildTopMenu,
       childAspectRatio: menuAspectRatio,
-      mainAxisSpacing: context.koiSpacing.autoBeetweenPane,
-      crossAxisSpacing: context.koiSpacing.autoBeetweenPane,
+      mainAxisSpacing: context.koiSpacing.largest,
+      crossAxisSpacing: context.koiSpacing.largest,
     );
   }
 }

@@ -11,7 +11,8 @@ class HomeMenuIcon extends StatelessWidget {
     required this.routeName,
     required this.name,
     required this.onClick,
-    required this.backgroundColor
+    required this.backgroundColor,
+    this.itemMenuAspectRatio = 1/1
   }) : super(key: key);
 
 
@@ -20,6 +21,8 @@ class HomeMenuIcon extends StatelessWidget {
   final String? routeName;
   final Function? onClick;
   final Color backgroundColor;
+
+  final double itemMenuAspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +37,26 @@ class HomeMenuIcon extends StatelessWidget {
         }
       },
       child: Container(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: Align(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
+        child: Align(
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: itemMenuAspectRatio,
+                child: Container(
                   padding: EdgeInsets.all(context.koiSpacing.medium),
                   child: icon,
                   decoration: BoxDecoration(
-                      border: Border.all(color: context.koiThemeColor.outline),
-                      borderRadius: BorderRadius.circular(context.koiSpacing.small),
-                      color: backgroundColor,
+                    border: Border.all(color: context.koiThemeColor.outline),
+                    borderRadius: BorderRadius.circular(context.koiSpacing.medium),
+                    color: backgroundColor,
                   ),
                 ),
-                Text(name)
-              ],
-            ),
+              ),
+              SizedBox(height: context.koiSpacing.small,),
+              Text(name, style: context.koiThemeText.label().copyWith(fontWeight: FontWeight.bold),)
+            ],
           ),
         ),
       ),
