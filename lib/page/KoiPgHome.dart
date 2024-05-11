@@ -11,6 +11,7 @@ class KoiPgHome extends StatelessWidget {
     List<String>? topMenu,
     required Widget header,
     required Widget? footer,
+    double menuAspectRatio = 3/4,
     Key? key
   }) : toShow = E_Wallet(
     appBar: appBar,
@@ -18,6 +19,7 @@ class KoiPgHome extends StatelessWidget {
     topMenu: topMenu,
     header: header,
     footer: footer,
+    menuAspectRatio: menuAspectRatio
   ), super(key: key);
 
   final Widget toShow;
