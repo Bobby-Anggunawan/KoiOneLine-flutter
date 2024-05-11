@@ -12,9 +12,12 @@ class HomeMenuIcon extends StatelessWidget {
     required this.name,
     required this.onClick,
     required this.backgroundColor,
-    this.itemMenuAspectRatio = 1/1
+    this.itemMenuAspectRatio = 1/1,
+    this.badge = null
   }) : super(key: key);
 
+  // sebaiknya gunakan widget Badge()
+  final Widget? badge;
 
   final Widget icon;
   final String name;
@@ -44,14 +47,26 @@ class HomeMenuIcon extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: itemMenuAspectRatio,
-                child: Container(
-                  padding: EdgeInsets.all(context.koiSpacing.medium),
-                  child: icon,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: context.koiThemeColor.outline),
-                    borderRadius: BorderRadius.circular(context.koiSpacing.medium),
-                    color: backgroundColor,
-                  ),
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(context.koiSpacing.medium),
+                      child: icon,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: context.koiThemeColor.outline),
+                        borderRadius: BorderRadius.circular(context.koiSpacing.medium),
+                        color: backgroundColor,
+                      ),
+                    ),
+                    Builder(builder: (context){
+                      if(badge == null){
+                        return SizedBox();
+                      }
+                      else{
+                        return badge!;
+                      }
+                    })
+                  ],
                 ),
               ),
               SizedBox(height: context.koiSpacing.small,),
