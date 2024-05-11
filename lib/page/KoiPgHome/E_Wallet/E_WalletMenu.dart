@@ -59,7 +59,7 @@ class E_WalletMenu extends StatelessWidget {
                 context: context,
                 isScrollControlled: true,
                 builder: (BuildContext context) {
-                  return _AllMenu(menu: menu, crossAxisCount: columnCount,);
+                  return _AllMenu(menu: menu, crossAxisCount: columnCount, menuAspectRatio: menuAspectRatio,);
                 }
             );
           },
@@ -78,10 +78,11 @@ class E_WalletMenu extends StatelessWidget {
 }
 
 class _AllMenu extends StatelessWidget {
-  const _AllMenu({Key? key, required this.menu, required this.crossAxisCount}) : super(key: key);
+  const _AllMenu({Key? key, required this.menu, required this.crossAxisCount, this.menuAspectRatio = 3/4}) : super(key: key);
 
   final Map<String, List<HomeMenuIcon>> menu;
   final int crossAxisCount;
+  final double menuAspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +99,7 @@ class _AllMenu extends StatelessWidget {
             crossAxisCount: crossAxisCount,
             shrinkWrap: true,
             children: value,
+            childAspectRatio: menuAspectRatio,
           )
       );
 

@@ -76,7 +76,7 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
                 (time){
               if(timerSelesai){
                 if(widget.redirectTo != null && value != false){
-                  Navigator.of(context).pushNamed(widget.redirectTo!);
+                  Navigator.of(context).pushReplacementNamed(widget.redirectTo!);
                 }
                 time.cancel();
               }
@@ -90,7 +90,7 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
           Duration(seconds: widget.redirectAfter!),
               (){
             if(widget.redirectTo != null){
-              Navigator.of(context).pushNamed(widget.redirectTo!);
+              Navigator.of(context).pushReplacementNamed(widget.redirectTo!);
             }
           }
       );
