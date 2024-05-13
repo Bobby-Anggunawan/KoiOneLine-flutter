@@ -14,7 +14,14 @@ import 'package:koi_one_line/koi_one_line.dart';
 ///
 /// `main(){runApp(KoiApp(<parameters>))}`
 class KoiApp extends StatelessWidget {
-  const KoiApp({Key? key, required this.routes, required this.themeColor, this.textTheme = null, this.builder = null, this.spinner = null}) : super(key: key);
+  const KoiApp({Key? key, this.navigatorKey = null, this.onGenerateRoute = null, this.initState = null, required this.routes, required this.themeColor, this.textTheme = null, this.builder = null, this.spinner = null}) : super(key: key);
+
+  // tambah navigator key
+  final GlobalKey<NavigatorState>? navigatorKey;
+  final Route<dynamic>? Function(RouteSettings)? onGenerateRoute;
+
+  /// jalankan fungsi pas halaman ini diinit
+  final Function(BuildContext)? initState;
 
   static ValueNotifier<bool> _isLoading = ValueNotifier(false);
   //start-digunakan toast
@@ -100,10 +107,16 @@ class KoiApp extends StatelessWidget {
     }
     //end---buat ThemeData
 
+    if(initState !=null){
+      initState!(context);
+    }
+
     return MaterialApp(
         routes: routes.getRoutes(),
+        onGenerateRoute: onGenerateRoute,
         theme: lightTheme,
         darkTheme: darkTheme,
+        navigatorKey: navigatorKey,
         builder: (context, child){
           if(builder != null){
             child = builder!(context, child);
