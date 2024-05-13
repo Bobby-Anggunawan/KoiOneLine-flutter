@@ -72,7 +72,7 @@ class E_WalletMenu extends StatelessWidget {
       children: buildTopMenu,
       childAspectRatio: menuAspectRatio,
       mainAxisSpacing: context.koiSpacing.largest,
-      crossAxisSpacing: context.koiSpacing.largest,
+      crossAxisSpacing: context.koiSpacing.largest
     );
   }
 }

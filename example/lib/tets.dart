@@ -36,7 +36,7 @@ class Test extends StatelessWidget {
             HomeMenuIcon(
               icon: Icon(Icons.ac_unit),
               routeName: 'home',
-              name: 'homecat2',
+              name: 'homecat2 asuhiu a suh ui hasuh uhasui  asuh iuhsauhd uh',
               onClick: null,
               backgroundColor: Colors.limeAccent,
             ),

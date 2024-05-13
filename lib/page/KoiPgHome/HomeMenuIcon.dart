@@ -41,13 +41,15 @@ class HomeMenuIcon extends StatelessWidget {
       },
       child: Container(
         child: Align(
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AspectRatio(
                 aspectRatio: itemMenuAspectRatio,
                 child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
                     Container(
                       padding: EdgeInsets.all(context.koiSpacing.medium),
