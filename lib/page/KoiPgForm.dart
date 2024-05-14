@@ -144,6 +144,7 @@ class _KoiPgFormState extends State<KoiPgForm> {
                           return TextField(
                             keyboardType: TextInputType.multiline,
                             minLines: 4,
+                            maxLines: 12,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: widget.field.keys.toList()[index]
