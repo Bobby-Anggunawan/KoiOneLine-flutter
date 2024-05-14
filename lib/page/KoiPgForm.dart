@@ -5,6 +5,7 @@ import 'package:koi_one_line/koi_one_line.dart';
 enum FieldType{
   text,
   password,
+  text_multiline,
   widget,
   select
 }
@@ -130,6 +131,19 @@ class _KoiPgFormState extends State<KoiPgForm> {
                       List.generate(widget.field.length, (index){
                         if(widget.field.values.toList()[index] == FieldType.text){
                           return TextField(
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: widget.field.keys.toList()[index]
+                            ),
+                            onChanged: (text){
+                              valueToReturn[widget.field.keys.toList()[index]] = text;
+                            },
+                          );
+                        }
+                        else if(widget.field.values.toList()[index] == FieldType.text_multiline){
+                          return TextField(
+                            keyboardType: TextInputType.multiline,
+                            minLines: 4,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: widget.field.keys.toList()[index]
