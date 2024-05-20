@@ -15,6 +15,7 @@ class KoiPgForm extends StatefulWidget {
   const KoiPgForm({
     Key? key,
     required this.title,
+    this.titleStyle = null,
     required this.field,
     required this.onSubmit,
     this.widgetField = const {},
@@ -28,6 +29,8 @@ class KoiPgForm extends StatefulWidget {
 
   /// title dari form ini
   final String title;
+  /// textstyle untuk title
+  final TextStyle? titleStyle;
   /// build tombol submit custom
   ///
   /// Parameternya adalah fungsi [onSubmit], yang di expect tertrigger kalau tombol ditekan
@@ -132,7 +135,7 @@ class _KoiPgFormState extends State<KoiPgForm> {
                     children: <Widget>[
                       Text(
                         widget.title,
-                        style: context.koiThemeText.headline(),
+                        style: widget.titleStyle ?? context.koiThemeText.headline(),
                       ),
                     ].koiJoinList(
                         List.generate(widget.field.length, (index){
