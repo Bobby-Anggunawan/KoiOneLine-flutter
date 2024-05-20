@@ -21,7 +21,9 @@ class KoiPgForm extends StatefulWidget {
     this.selectField = const {},
     this.formMaxWidth = 350,
     this.submitButton,
-    this.background
+    this.background,
+    this.multilineMaxLine = 12,
+    this.multilineMinLine = 4
   }) : super(key: key);
 
   /// title dari form ini
@@ -60,6 +62,9 @@ class KoiPgForm extends StatefulWidget {
 
   /// fungsi yang di trigger kalau tombol submit ditekan. Menggunakan parameter [field] yang merupakan isi dari semua filed yang ada
   final void Function(Map<String, dynamic>) onSubmit;
+
+  final int multilineMaxLine;
+  final int multilineMinLine;
 
   @override
   State<KoiPgForm> createState() => _KoiPgFormState();
@@ -145,8 +150,8 @@ class _KoiPgFormState extends State<KoiPgForm> {
                           else if(widget.field.values.toList()[index] == FieldType.text_multiline){
                             return TextField(
                               keyboardType: TextInputType.multiline,
-                              minLines: 4,
-                              maxLines: 12,
+                              minLines: widget.multilineMinLine,
+                              maxLines: widget.multilineMaxLine,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: widget.field.keys.toList()[index]
