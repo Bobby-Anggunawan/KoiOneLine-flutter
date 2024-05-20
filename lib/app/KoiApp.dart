@@ -142,6 +142,7 @@ class KoiApp extends StatelessWidget {
                     builder: (BuildContext context, bool value, Widget? child){
                       if(value){
                         return Material(
+                          type: MaterialType.transparency,
                           child: Container(
                             padding: EdgeInsets.all(context.koiSpacing.medium),
                             margin: EdgeInsets.only(bottom: context.koiSpacing.largest),

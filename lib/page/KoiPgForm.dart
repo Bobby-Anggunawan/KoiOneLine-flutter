@@ -109,78 +109,81 @@ class _KoiPgFormState extends State<KoiPgForm> {
       body: Stack(
         children: [
           widget.background,
-          Center(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(context.koiSpacing.large),
-                decoration: BoxDecoration(
-                    color: context.koiThemeColor.surface,
-                    borderRadius: BorderRadius.circular(context.koiSpacing.large)
-                ),
-                constraints: BoxConstraints(
-                    maxWidth: widget.formMaxWidth
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(
-                      widget.title,
-                      style: context.koiThemeText.headline(),
+          Padding(
+            padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(context.koiSpacing.large),
+                  decoration: BoxDecoration(
+                      color: context.koiThemeColor.surface,
+                      borderRadius: BorderRadius.circular(context.koiSpacing.large)
+                  ),
+                  constraints: BoxConstraints(
+                      maxWidth: widget.formMaxWidth
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        widget.title,
+                        style: context.koiThemeText.headline(),
+                      ),
+                    ].koiJoinList(
+                        List.generate(widget.field.length, (index){
+                          if(widget.field.values.toList()[index] == FieldType.text){
+                            return TextField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: widget.field.keys.toList()[index]
+                              ),
+                              onChanged: (text){
+                                valueToReturn[widget.field.keys.toList()[index]] = text;
+                              },
+                            );
+                          }
+                          else if(widget.field.values.toList()[index] == FieldType.text_multiline){
+                            return TextField(
+                              keyboardType: TextInputType.multiline,
+                              minLines: 4,
+                              maxLines: 12,
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: widget.field.keys.toList()[index]
+                              ),
+                              onChanged: (text){
+                                valueToReturn[widget.field.keys.toList()[index]] = text;
+                              },
+                            );
+                          }
+                          else if(widget.field.values.toList()[index] == FieldType.password){
+                            return _PasswordField(
+                              label: widget.field.keys.toList()[index],
+                              onEdit: (newText){
+                                valueToReturn[widget.field.keys.toList()[index]] = newText;
+                              },
+                            );
+                          }
+                          else if(widget.field.values.toList()[index] == FieldType.widget){
+                            return widget.widgetField[widget.field.keys.toList()[index]]!;
+                          }
+                          else if(widget.field.values.toList()[index] == FieldType.select){
+                            return _DropdownField(
+                              onChange: (selected) {
+                                valueToReturn[widget.field.keys.toList()[index]] = selected;
+                              }, initialData: widget.selectField[widget.field.keys.toList()[index]]!,
+                              label: widget.field.keys.toList()[index],
+                            );
+                          }
+                          else{
+                            throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
+                          }
+                        })
+                    ).koiJoinList([
+                      buildTombolSubmit
+                    ]).koiAddBetweenElement(
+                        SizedBox(height: context.koiSpacing.large,)
                     ),
-                  ].koiJoinList(
-                      List.generate(widget.field.length, (index){
-                        if(widget.field.values.toList()[index] == FieldType.text){
-                          return TextField(
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: widget.field.keys.toList()[index]
-                            ),
-                            onChanged: (text){
-                              valueToReturn[widget.field.keys.toList()[index]] = text;
-                            },
-                          );
-                        }
-                        else if(widget.field.values.toList()[index] == FieldType.text_multiline){
-                          return TextField(
-                            keyboardType: TextInputType.multiline,
-                            minLines: 4,
-                            maxLines: 12,
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: widget.field.keys.toList()[index]
-                            ),
-                            onChanged: (text){
-                              valueToReturn[widget.field.keys.toList()[index]] = text;
-                            },
-                          );
-                        }
-                        else if(widget.field.values.toList()[index] == FieldType.password){
-                          return _PasswordField(
-                            label: widget.field.keys.toList()[index],
-                            onEdit: (newText){
-                              valueToReturn[widget.field.keys.toList()[index]] = newText;
-                            },
-                          );
-                        }
-                        else if(widget.field.values.toList()[index] == FieldType.widget){
-                          return widget.widgetField[widget.field.keys.toList()[index]]!;
-                        }
-                        else if(widget.field.values.toList()[index] == FieldType.select){
-                          return _DropdownField(
-                            onChange: (selected) {
-                              valueToReturn[widget.field.keys.toList()[index]] = selected;
-                            }, initialData: widget.selectField[widget.field.keys.toList()[index]]!,
-                            label: widget.field.keys.toList()[index],
-                          );
-                        }
-                        else{
-                          throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
-                        }
-                      })
-                  ).koiJoinList([
-                    buildTombolSubmit
-                  ]).koiAddBetweenElement(
-                      SizedBox(height: context.koiSpacing.large,)
                   ),
                 ),
               ),
