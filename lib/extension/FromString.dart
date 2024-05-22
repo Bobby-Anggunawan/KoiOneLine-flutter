@@ -25,4 +25,25 @@ extension FromString on String{
       return false;
     }
   }
+
+  /// buat semua awal kata jadi kapital. "ikan asin" jadi "Ikan Asin"
+  String get koiCapitalEachWord{
+    String ret = "";
+    this.split(" ").forEach((element) {
+      var elementPros = element.toLowerCase();
+      if(elementPros.length > 0){
+
+        elementPros = elementPros.replaceFirst(elementPros[0], elementPros[0].toUpperCase());
+      }
+
+      if(ret == ""){
+        ret = elementPros;
+      }
+      else{
+        ret += " ${elementPros}";
+      }
+    });
+
+    return ret;
+  }
 }
