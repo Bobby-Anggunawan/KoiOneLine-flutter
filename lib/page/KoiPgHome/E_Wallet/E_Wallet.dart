@@ -17,6 +17,8 @@ class E_Wallet extends StatelessWidget {
     required this.appBar,
     required this.header,
     required this.footer,
+
+    this.background = null
   }) : super(key: key);
 
   /// daftar semua menu diurutkan berdasarkan kategorinya.
@@ -27,6 +29,8 @@ class E_Wallet extends StatelessWidget {
   final List<String>? topMenu;
 
   final PreferredSizeWidget appBar;
+
+  final Widget? background;
 
   /// widget yang letaknya diatas menu.
   /// biasanya menggunakan widget yang menampilkan saldo dan beberapa tombol misalnya untuk topupkek gi gopay
@@ -59,17 +63,31 @@ class E_Wallet extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoFromScreenEdge),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              header,
-              E_WalletMenu(menu: menu, topMenu: topMenu,),
-              footer
-            ].koiRemoveNull<Widget>().koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
-          ),
-        ),
+      body: Stack(
+        children: [
+
+          Builder(builder: (context){
+            if(background != null){
+              return background!;
+            }
+            else{
+              return SizedBox();
+            }
+          }),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoFromScreenEdge),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  header,
+                  E_WalletMenu(menu: menu, topMenu: topMenu,),
+                  footer
+                ].koiRemoveNull<Widget>().koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
