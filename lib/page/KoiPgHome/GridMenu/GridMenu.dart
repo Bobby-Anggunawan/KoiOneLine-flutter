@@ -23,29 +23,30 @@ class GridMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Builder(builder: (context){
-              if(header != null){
-                return header!;
-              }
-              else{
-                return SizedBox();
-              }
-            }),
-            Stack(
+      body: Stack(
+        children: [
+
+          Builder(builder: (context){
+            if(background != null){
+              return background!;
+            }
+            else{
+              return SizedBox();
+            }
+          }),
+
+          SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Builder(builder: (context){
-                  if(background != null){
-                    return background!;
+                  if(header != null){
+                    return header!;
                   }
                   else{
                     return SizedBox();
                   }
                 }),
-
                 KoiAppResponsive(
                   updateWhenResize: true,
                   screenPhone: buildMenu(2),
@@ -54,9 +55,9 @@ class GridMenu extends StatelessWidget {
                   screenDesktop: buildMenu(6),
                 )
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
