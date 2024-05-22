@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:koi_one_line/extension/FromBuildContext.dart';
 import 'package:koi_one_line/extension/FromList.dart';
-import 'package:koi_one_line/page/KoiPgHome/E_Wallet/E_WalletBalance.dart';
-import 'package:koi_one_line/page/KoiPgHome/E_Wallet/E_WalletMenu.dart';
 import 'package:koi_one_line/page/KoiPgHome/HomeMenuIcon.dart';
+import 'package:koi_one_line/page/KoiPgHome/SuperApp/SuperAppMenu.dart';
 
 /// ui home page dari app yang biasanya punya fitur E-Wallet kek gojek, grab, shopee, dll
 ///
 /// **WARNING**
 //  * di dalam [menu], kalau ada menu dengan nama yang sama, widget akan mereturn error
-class E_Wallet extends StatelessWidget {
-  const E_Wallet({
+class SuperApp extends StatelessWidget {
+  const SuperApp({
     Key? key,
     required this.menu,
     this.topMenu,
@@ -34,7 +33,7 @@ class E_Wallet extends StatelessWidget {
 
   /// widget yang letaknya diatas menu.
   /// biasanya menggunakan widget yang menampilkan saldo dan beberapa tombol misalnya untuk topupkek gi gopay
-  /// user dapat menggunakan widget E_WalletBalance yang disediakan di library ini atau menggunakan widget sendiri
+  /// user dapat menggunakan widget SuperAppBalance yang disediakan di library ini atau menggunakan widget sendiri
   final Widget header;
 
   /// widget yang letaknya dibawah menu
@@ -81,7 +80,7 @@ class E_Wallet extends StatelessWidget {
               child: Column(
                 children: [
                   header,
-                  E_WalletMenu(menu: menu, topMenu: topMenu,),
+                  SuperAppMenu(menu: menu, topMenu: topMenu,),
                   footer
                 ].koiRemoveNull<Widget>().koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
               ),

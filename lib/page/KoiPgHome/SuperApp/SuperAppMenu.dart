@@ -4,8 +4,8 @@ import 'package:koi_one_line/extension/FromList.dart';
 
 import '../HomeMenuIcon.dart';
 
-class E_WalletMenu extends StatelessWidget {
-  const E_WalletMenu({
+class SuperAppMenu extends StatelessWidget {
+  const SuperAppMenu({
     Key? key,
     required this.menu,
     required this.topMenu,
