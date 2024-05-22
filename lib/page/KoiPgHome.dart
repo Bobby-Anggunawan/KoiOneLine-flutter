@@ -11,14 +11,15 @@ class KoiPgHome extends StatelessWidget {
     List<String>? topMenu,
     required Widget header,
     required Widget? footer,
-    double menuAspectRatio = 3/4,
+    Widget? background,
     Key? key
   }) : toShow = E_Wallet(
     appBar: appBar,
     menu: menu,
     topMenu: topMenu,
     header: header,
-    footer: footer
+    footer: footer,
+    background: background,
   ), super(key: key);
 
   final Widget toShow;
