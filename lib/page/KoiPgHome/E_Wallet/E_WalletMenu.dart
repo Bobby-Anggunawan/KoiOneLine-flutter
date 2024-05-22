@@ -11,12 +11,7 @@ class E_WalletMenu extends StatelessWidget {
     required this.topMenu,
     this.columnCount = 4,
     this.rowCount = 2,
-    this.menuAspectRatio = 3/4
   }) : super(key: key);
-
-  /// aspec ratio dari tiap icon menu. Kalau 1/1 artinya kotak, 4/3 artinya panjang kesamping
-  /// diaplikasikan di gridview
-  final double menuAspectRatio;
 
   /// berapa row max yang ditampilkan di top menu
   final int rowCount;
@@ -53,13 +48,13 @@ class E_WalletMenu extends StatelessWidget {
           icon: Icon(Icons.dashboard, color: context.koiThemeColor.onSurface,),
           name: "Menu",
           routeName: null,
-          backgroundColor: context.koiThemeColor.surface,
+          backgroundColor: context.koiThemeColor.surfaceVariant,
           onClick: (){
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
                 builder: (BuildContext context) {
-                  return _AllMenu(menu: menu, crossAxisCount: columnCount, menuAspectRatio: menuAspectRatio,);
+                  return _AllMenu(menu: menu, crossAxisCount: columnCount,);
                 }
             );
           },
@@ -70,7 +65,7 @@ class E_WalletMenu extends StatelessWidget {
       shrinkWrap: true,
       crossAxisCount: columnCount,
       children: buildTopMenu,
-      childAspectRatio: menuAspectRatio,
+      childAspectRatio: 1/1,
       mainAxisSpacing: context.koiSpacing.largest,
       crossAxisSpacing: context.koiSpacing.largest
     );
@@ -78,11 +73,11 @@ class E_WalletMenu extends StatelessWidget {
 }
 
 class _AllMenu extends StatelessWidget {
-  const _AllMenu({Key? key, required this.menu, required this.crossAxisCount, this.menuAspectRatio = 3/4}) : super(key: key);
+  const _AllMenu({Key? key, required this.menu, required this.crossAxisCount, this.type = MenuType.list}) : super(key: key);
 
   final Map<String, List<HomeMenuIcon>> menu;
   final int crossAxisCount;
-  final double menuAspectRatio;
+  final MenuType type;
 
   @override
   Widget build(BuildContext context) {
@@ -91,17 +86,29 @@ class _AllMenu extends StatelessWidget {
     menu.forEach((key, value) {
 
       // nama kategori
-      buildMenu.add(Text(key, style: context.koiThemeText.title(),));
+      buildMenu.add(Text(key, style: context.koiThemeText.headline(),));
 
-      // item menu di kategori ini
-      buildMenu.add(
-          GridView.count(
-            crossAxisCount: crossAxisCount,
-            shrinkWrap: true,
-            children: value,
-            childAspectRatio: menuAspectRatio,
-          )
-      );
+
+      if(type == MenuType.list){
+        value.forEach((element) {
+          buildMenu.add(SizedBox(height: context.koiSpacing.autoBetweenCard,));
+          buildMenu.add(element.copyWith(type: MenuType.list));
+        });
+      }
+      else if(type == MenuType.grid){
+        // item menu di kategori ini
+        buildMenu.add(
+            GridView.count(
+              crossAxisCount: crossAxisCount,
+              shrinkWrap: true,
+              children: value,
+              childAspectRatio: 1/1,
+            )
+        );
+      }
+      else{
+        throw UnimplementedError("belum diimplementasikan");
+      }
 
       // tambah spacing antar kategori
       buildMenu.add(SizedBox(height: context.koiSpacing.largest,));

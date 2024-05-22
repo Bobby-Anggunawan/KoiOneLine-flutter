@@ -17,7 +17,6 @@ class E_Wallet extends StatelessWidget {
     required this.appBar,
     required this.header,
     required this.footer,
-    this.menuAspectRatio = 3/4
   }) : super(key: key);
 
   /// daftar semua menu diurutkan berdasarkan kategorinya.
@@ -37,8 +36,6 @@ class E_Wallet extends StatelessWidget {
   /// widget yang letaknya dibawah menu
   /// bisa diisi berbagai informasi seperti promo, artikel, dll. Bisa juga dibiarkan kosong
   final Widget? footer;
-
-  final double menuAspectRatio;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +65,7 @@ class E_Wallet extends StatelessWidget {
           child: Column(
             children: [
               header,
-              E_WalletMenu(menu: menu, topMenu: topMenu, menuAspectRatio: menuAspectRatio,),
+              E_WalletMenu(menu: menu, topMenu: topMenu,),
               footer
             ].koiRemoveNull<Widget>().koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
           ),

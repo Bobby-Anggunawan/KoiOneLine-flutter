@@ -18,8 +18,7 @@ class KoiPgHome extends StatelessWidget {
     menu: menu,
     topMenu: topMenu,
     header: header,
-    footer: footer,
-    menuAspectRatio: menuAspectRatio
+    footer: footer
   ), super(key: key);
 
   final Widget toShow;
