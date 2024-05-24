@@ -14,7 +14,17 @@ import 'package:koi_one_line/koi_one_line.dart';
 ///
 /// `main(){runApp(KoiApp(<parameters>))}`
 class KoiApp extends StatelessWidget {
-  const KoiApp({Key? key, this.navigatorKey = null, this.onGenerateRoute = null, this.initState = null, required this.routes, required this.themeColor, this.textTheme = null, this.builder = null, this.spinner = null}) : super(key: key);
+  const KoiApp({
+    Key? key,
+    this.navigatorKey = null,
+    this.onGenerateRoute = null,
+    this.initState = null,
+    required this.routes,
+    required this.themeColor,
+    this.textTheme = null,
+    this.builder = null,
+    this.spinner = null
+  }) : super(key: key);
 
   // tambah navigator key
   final GlobalKey<NavigatorState>? navigatorKey;
@@ -129,7 +139,14 @@ class KoiApp extends StatelessWidget {
                   valueListenable: _isLoading,
                   builder: (BuildContext context, bool value, Widget? child){
                     if(value){
-                      return spinner ?? Center(child: CircularProgressIndicator(),);
+                      return spinner ?? Container(
+                        height: KoiGetWindowSize.height,
+                        width: KoiGetWindowSize.width,
+                        color: context.koiThemeColor.scrim.withOpacity(0.5),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
                     }
                     return SizedBox();
                   }
