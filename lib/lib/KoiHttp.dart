@@ -56,6 +56,11 @@ class KoiHttp{
 
     return RequestResult(rawData: ret, statusCode: response.statusCode);
   }
+
+  /// misalnya mengubah spasi jadi %20 dan sebagainya. Membuat string jadi url yang falid
+  static String encodeUrl(String path){
+    return Uri.encodeComponent(path);
+  }
 }
 
 /// kalau hasil bisa diparse jadi json, class ini akan langsung memparse hasil jadi json

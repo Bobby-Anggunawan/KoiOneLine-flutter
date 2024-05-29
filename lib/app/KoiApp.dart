@@ -140,8 +140,8 @@ class KoiApp extends StatelessWidget {
                   builder: (BuildContext context, bool value, Widget? child){
                     if(value){
                       return spinner ?? Container(
-                        height: KoiGetWindowSize.height,
-                        width: KoiGetWindowSize.width,
+                        height: KoiLib.getWindowSize.height,
+                        width: KoiLib.getWindowSize.width,
                         color: context.koiThemeColor.scrim.withOpacity(0.5),
                         child: Center(
                           child: CircularProgressIndicator(),
