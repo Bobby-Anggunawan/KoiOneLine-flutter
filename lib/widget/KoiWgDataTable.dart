@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:koi_one_line/koi_one_line.dart';
 
 
+
+// TODO: Bug
+// - belum bisa ambil lebar kolom dengan akurat -_-
+
+
 enum SortDirections{
   Ascending,
   Descending,
@@ -99,6 +104,7 @@ class KoiWgDataTable extends StatelessWidget {
         _vertical = ScrollController();
 
 
+    List<WgDataTableColumn> generatedColumns = columns;
     List<List<Widget>> generatedRow = [];
     List<double> generatedRowWidth = [];
 
@@ -112,7 +118,17 @@ class KoiWgDataTable extends StatelessWidget {
       //start-hitung ukuran tiap kolom
       for(int x =0; x < element.length; x++){
 
-        double getSize = columns[x].width ?? columnMinWidth;
+        //start-fill generated column dan ambil size tiap kolom
+        double getSize = 0;
+        try{
+          getSize = generatedColumns[x].width ?? columnMinWidth;
+        }
+        catch(e){
+          generatedColumns.add(WgDataTableColumn(title: SizedBox()));
+          getSize = generatedColumns[x].width ?? columnMinWidth;
+        }
+        //end---fill generated column dan ambil size tiap kolom
+
         if(element[x] is Text){
           var atext = element[x] as Text;
           if(atext.data != null){
@@ -158,7 +174,7 @@ class KoiWgDataTable extends StatelessWidget {
 
 
     var buildHeader = _RenderRow(
-      List.generate(columns.length, (index){return columns[index].title;}),
+      List.generate(generatedColumns.length, (index){return generatedColumns[index].title;}),
       generatedRowWidth,
       rowMinHeight: headerHeight,
       rowFixHeight: headerHeight,
@@ -289,7 +305,7 @@ class _RenderRow extends StatelessWidget {
             children: List.generate(row.length, (index){
               return Container(
                 decoration: BoxDecoration(
-                  border: Border.symmetric(vertical: borderInnerHorizontal),
+                  border: Border.symmetric(vertical: borderInnerVertical),
                 ),
                 child: Padding(
                     padding: cellContentpadding,
@@ -302,29 +318,6 @@ class _RenderRow extends StatelessWidget {
             })
         ),
       ),
-    );
-
-    return Row(
-      children: List.generate(row.length, (index){
-        return Container(
-          height: rowFixHeight,
-          width: width[index],
-          decoration: BoxDecoration(
-              border: Border.symmetric(vertical: borderInnerVertical, horizontal: borderInnerHorizontal),
-              color: backgroundColor
-          ),
-          constraints: BoxConstraints(
-              minHeight: rowMinHeight
-          ),
-          child: Padding(
-            padding: cellContentpadding,
-            child: Align(
-              alignment: cellContentAlignment,
-              child: row[index],
-            ),
-          ),
-        );
-      }),
     );
   }
 }

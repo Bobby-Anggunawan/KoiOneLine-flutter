@@ -13,7 +13,7 @@ class Test extends StatelessWidget {
         width: 300,
         height: 300,
         child: KoiWgDataTable(
-            columns: [WgDataTableColumn(title: Text("Ikan11"), width: 200),WgDataTableColumn(title: Text("Ikan2")),WgDataTableColumn(title: Text("Ikan3")),WgDataTableColumn(title: Text("Ikan4")),WgDataTableColumn(title: Text("Ikan5")),WgDataTableColumn(title: Text("Ikan6")),WgDataTableColumn(title: Text("Ikan7")),WgDataTableColumn(title: Text("Ikan8")),WgDataTableColumn(title: Text("Ikan9")),WgDataTableColumn(title: Text("Ikan0")),],
+            columns: [WgDataTableColumn(title: Text("Ikan11"), width: 200),WgDataTableColumn(title: Text("Ikan2")),WgDataTableColumn(title: Text("Ikan3")),WgDataTableColumn(title: Text("Ikan4")),WgDataTableColumn(title: Text("Ikan5")),WgDataTableColumn(title: Text("Ikan6")),WgDataTableColumn(title: Text("Ikan7")),WgDataTableColumn(title: Text("Ikan8")),WgDataTableColumn(title: Text("Ikan9"))],
             row: [
               [Text("ayama"),Text("ayama"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
               [Text("ayamb"),Text("ayamb"),Text("ayam"),Text("ayamjodfg dsf huisd h iudshfiuh isdfh uih iusdhf iuh iuhdfuh iuh iusdhf iuhiuh"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
@@ -27,7 +27,7 @@ class Test extends StatelessWidget {
               [Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
               [Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
               [Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
-              [Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
+              [Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),Text("ayam"),],
             ]
         ),
       ),
