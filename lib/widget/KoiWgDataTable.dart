@@ -109,7 +109,7 @@ class KoiWgDataTable extends StatelessWidget {
     List<double> generatedRowWidth = [];
 
 
-    int _macCol = generatedColumns.length;
+    int _macCol = columns.length;
     row.forEach((element) {
       if(_macCol < element.length){
         _macCol = element.length;
@@ -170,6 +170,22 @@ class KoiWgDataTable extends StatelessWidget {
 
       generatedRow.add(element);
     });
+
+
+    // kalo header lebih banak dari row
+    // masukkan ukuran row yang masih kosong
+    if(generatedColumns.length > generatedRowWidth.length){
+      for(var x=0; x< generatedColumns.length; x++){
+        try{
+          //cek
+          generatedRowWidth[x];
+        }
+        catch(e){
+          generatedRowWidth.add(generatedColumns[x].width ?? columnMinWidth);
+        }
+      }
+    }
+
     //end---fill generated row(supaya kalau jumlah colom tiap row berbeda beda, widget tetap menampilkan hasil)
 
 
