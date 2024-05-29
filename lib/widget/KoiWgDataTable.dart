@@ -109,7 +109,7 @@ class KoiWgDataTable extends StatelessWidget {
     List<double> generatedRowWidth = [];
 
 
-    int _macCol = 0;
+    int _macCol = generatedColumns.length;
     row.forEach((element) {
       if(_macCol < element.length){
         _macCol = element.length;
