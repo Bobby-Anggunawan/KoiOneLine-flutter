@@ -17,6 +17,19 @@ extension FromDateTime on DateTime{
     10 : "October",
     11 : "November",
     12 : "December"
+  };static Map<int, String> monthNamesShort = {
+    1 : "Jan",
+    2 : "Feb",
+    3 : "Mar",
+    4 : "Apr",
+    5 : "May",
+    6 : "Jun",
+    7 : "Jul",
+    8 : "Aug",
+    9 : "Sep",
+    10 : "Oct",
+    11 : "Nov",
+    12 : "Dec"
   };
 
   /// hanya menampilkan jam saja dari [Datetime] ini.
@@ -47,10 +60,15 @@ extension FromDateTime on DateTime{
   /// **Return**
   ///
   /// Dengan parameter default, returnnya akan seperti **21 April 2000**. Note, jika angka kurang dari 10, 0 akan otomatis ditambah di belakang jadi nilainya selalu 2 digit
-  String koiStringOnlyDate({String separator = " ", bool withYear = true, bool showMonthName = true}){
+  String koiStringOnlyDate({String separator = " ", bool shortMonthName = false, bool withYear = true, bool showMonthName = true}){
     late String month;
     if(showMonthName){
-      month = monthNames[this.month]!;
+      if(shortMonthName){
+        month = monthNamesShort[this.month]!;
+      }
+      else{
+        month = monthNames[this.month]!;
+      }
     }
     else{
       month = this.month.koiToXDigit();
