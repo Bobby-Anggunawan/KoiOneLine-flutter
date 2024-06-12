@@ -13,6 +13,7 @@ class Test extends StatelessWidget {
       body: Container(
         width: 500,
         child: KoiWgOption(
+          defaultOption: [1, 2, 10, 7],
           options: {
             1: Row(
               mainAxisSize: MainAxisSize.min,

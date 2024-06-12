@@ -8,7 +8,7 @@ enum OptionMode{
 
 /// membuat option daftar tombol yang bisa dipilih
 class KoiWgOption<T> extends StatefulWidget {
-  const KoiWgOption({Key? key, required this.options, this.maxOptionSelected = -1 >>> 1, required this.optionMode, required this.onOptionChange, this.styleUnselected = null, this.styleSelected = null}) : super(key: key);
+  const KoiWgOption({Key? key, required this.options, this.maxOptionSelected = -1 >>> 1, required this.optionMode, required this.onOptionChange, this.styleUnselected = null, this.styleSelected = null, this.disabled = false, this.defaultOption = const []}) : super(key: key);
 
   /// masukkan daftar button di sini
   /// - key(dynamic) adalah value dari button ini
@@ -30,6 +30,11 @@ class KoiWgOption<T> extends StatefulWidget {
   final ButtonStyle? styleSelected;
   final ButtonStyle? styleUnselected;
 
+  final bool disabled;
+
+  /// valie default yang otomatis terselect saat widget ini dibuild
+  final List<T> defaultOption;
+
 
   @override
   State<KoiWgOption<T>> createState() => _KoiWgOptionState<T>();
@@ -46,6 +51,8 @@ class _KoiWgOptionState<T> extends State<KoiWgOption<T>> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    selected = widget.defaultOption;
 
     styleSelected = widget.styleSelected ?? ButtonStyle(
       foregroundColor: MaterialStateProperty.resolveWith((states){
@@ -90,6 +97,7 @@ class _KoiWgOptionState<T> extends State<KoiWgOption<T>> {
               value: ListValue[index],
               styleSelected: styleSelected,
               styleUnselected: styleUnselected,
+              disabled: widget.disabled,
               onSelect: (T value) {
 
                 if(widget.optionMode == OptionMode.SingleSelect){
@@ -127,7 +135,7 @@ class _KoiWgOptionState<T> extends State<KoiWgOption<T>> {
 
 /// tombol yang dipakai
 class _OptionButton<T> extends StatelessWidget {
-  const _OptionButton({Key? key, required this.label, required this.value, required this.styleSelected, required this.styleUnselected, required this.onSelect, required this.isSelected}) : super(key: key);
+  const _OptionButton({Key? key, required this.label, required this.value, required this.styleSelected, required this.styleUnselected, required this.onSelect, required this.isSelected, required this.disabled}) : super(key: key);
 
   final T value;
   final Widget label;
@@ -136,6 +144,8 @@ class _OptionButton<T> extends StatelessWidget {
 
   final bool isSelected;
 
+  final bool disabled;
+
   final Function(T value) onSelect;
 
 
@@ -143,10 +153,23 @@ class _OptionButton<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
         style: isSelected ? styleSelected : styleUnselected,
-        onPressed: (){
+        onPressed: disabled == false ? (){
           onSelect(value);
-        },
-        child: label
+        } : null,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Builder(
+                builder: (context){
+                  if(isSelected == false){
+                    return Icon(Icons.check);
+                  }
+                  return SizedBox();
+                }
+            ),
+            label
+          ],
+        )
     );
   }
 }
