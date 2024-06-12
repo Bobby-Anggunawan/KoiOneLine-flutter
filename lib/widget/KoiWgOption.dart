@@ -52,7 +52,9 @@ class _KoiWgOptionState<T> extends State<KoiWgOption<T>> {
     // TODO: implement initState
     super.initState();
 
-    selected = widget.defaultOption;
+    widget.defaultOption.forEach((element) {
+      selected.add(element);
+    });
 
     styleSelected = widget.styleSelected ?? ButtonStyle(
       foregroundColor: MaterialStateProperty.resolveWith((states){
