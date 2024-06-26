@@ -98,8 +98,6 @@ class KoiWgDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-
     final ScrollController _horizontal = ScrollController(),
         _vertical = ScrollController();
 
@@ -199,6 +197,7 @@ class KoiWgDataTable extends StatelessWidget {
       borderInnerHorizontal: borderInnerHorizontal,
       borderInnerVertical: borderInnerVertical,
       backgroundColor: headerColor ?? context.koiThemeColor.surfaceVariant,
+      backgroundColorSelected: headerColor ?? context.koiThemeColor.surfaceVariant,
     );
 
     return Scrollbar(
@@ -231,6 +230,7 @@ class KoiWgDataTable extends StatelessWidget {
                         borderInnerHorizontal: borderInnerHorizontal,
                         borderInnerVertical: borderInnerVertical,
                         backgroundColor: index % 2 == 0 ? (rowColorEven ?? context.koiThemeColor.surface) : (rowColorOdd ?? context.koiThemeColor.surfaceVariant),
+                        backgroundColorSelected: context.koiThemeColor.tertiary,
                       );
                     })),
                   ),
@@ -272,7 +272,7 @@ class WgDataTableColumn{
   SortDirections directions;
 }
 
-class _RenderRow extends StatelessWidget {
+class _RenderRow extends StatefulWidget {
   const _RenderRow(
       this.row,
       this.width,
@@ -284,13 +284,16 @@ class _RenderRow extends StatelessWidget {
         required this.cellContentAlignment,
         required this.borderInnerVertical,
         required this.borderInnerHorizontal,
-        required this.backgroundColor
+        required this.backgroundColor,
+
+        required this.backgroundColorSelected
       }) : super(key: key);
 
   final List<Widget> row;//
   final List<double> width;
 
   final Color backgroundColor;
+  final Color backgroundColorSelected;
 
   final double rowMinHeight;//
 
@@ -301,37 +304,51 @@ class _RenderRow extends StatelessWidget {
   final EdgeInsets cellContentpadding;//
   final Alignment cellContentAlignment;
   final BorderSide borderInnerVertical;//
-  final BorderSide borderInnerHorizontal;//
+  final BorderSide borderInnerHorizontal;
+  @override
+  State<_RenderRow> createState() => _RenderRowState();
+}
 
+class _RenderRowState extends State<_RenderRow> {
+
+  bool isSelected = false;
+
+//
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      height: rowFixHeight,
-      decoration: BoxDecoration(
-          color: backgroundColor,
-        border: Border.symmetric(horizontal: borderInnerHorizontal),
-      ),
-      constraints: BoxConstraints(
-          minHeight: rowMinHeight,
-      ),
-      child: IntrinsicHeight(
-        child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: List.generate(row.length, (index){
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.symmetric(vertical: borderInnerVertical),
-                ),
-                child: Padding(
-                    padding: cellContentpadding,
-                    child: Container(
-                      width: width[index],
-                      child: row[index],
-                    )
-                ),
-              );
-            })
+    return GestureDetector(
+      onTap: (){
+        isSelected = !isSelected;
+        setState(() {});
+      },
+      child: Container(
+        height: widget.rowFixHeight,
+        decoration: BoxDecoration(
+          color: isSelected ? widget.backgroundColorSelected :widget.backgroundColor,
+          border: Border.symmetric(horizontal: widget.borderInnerHorizontal),
+        ),
+        constraints: BoxConstraints(
+          minHeight: widget.rowMinHeight,
+        ),
+        child: IntrinsicHeight(
+          child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: List.generate(widget.row.length, (index){
+                return Container(
+                  decoration: BoxDecoration(
+                    border: Border.symmetric(vertical: widget.borderInnerVertical),
+                  ),
+                  child: Padding(
+                      padding: widget.cellContentpadding,
+                      child: Container(
+                        width: widget.width[index],
+                        child: widget.row[index],
+                      )
+                  ),
+                );
+              })
+          ),
         ),
       ),
     );

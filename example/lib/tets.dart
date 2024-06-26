@@ -12,32 +12,18 @@ class Test extends StatelessWidget {
       appBar: AppBar(title: Text("ikan"),),
       body: Container(
         width: 500,
-        child: KoiWgOption(
-          defaultOption: [1, 3, 5],
-          options: {
-            1: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("satu"),
-                Icon(Icons.looks_one)
-              ],
-            ),
-            2: Text("dua"),
-            3: Text("tiga"),
-            4: Text("empat"),
-            5: Text("lima"),
-            6: Text("enam"),
-            7: Text("tujuh"),
-            8: Text("delapan"),
-            9: Text("sembilan"),
-            10: Text("sepuluh"),
-          },
-          optionMode: OptionMode.MultiSelect,
-          maxOptionSelected: 5,
-          onOptionChange: (values) {
-            print("onOptionChange");
-            print(values);
-          },),
+        child: KoiWgDataTable(
+          columns: [
+            WgDataTableColumn(title: Text("satu")),
+            WgDataTableColumn(title: Text("dua")),
+            WgDataTableColumn(title: Text("tiga")),
+          ],
+          row: [
+            [Text("1a"),Text("b"),Text("c"),],
+            [Text("2a"),Text("b"),Text("c"),],
+            [Text("3a"),Text("b"),Text("c"),],
+          ],
+        ),
       ),
     );
   }
