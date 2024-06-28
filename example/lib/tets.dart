@@ -8,6 +8,12 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    var arow = [
+      [Text("1a"),Text("b"),Text("c"),],
+      [Text("2a"),Text("b"),Text("c"),],
+      [Text("3a"),Text("b"),Text("c"),],
+    ];
+
     return Scaffold(
       appBar: AppBar(title: Text("ikan"),),
       body: Container(
@@ -18,11 +24,10 @@ class Test extends StatelessWidget {
             WgDataTableColumn(title: Text("dua")),
             WgDataTableColumn(title: Text("tiga")),
           ],
-          row: [
-            [Text("1a"),Text("b"),Text("c"),],
-            [Text("2a"),Text("b"),Text("c"),],
-            [Text("3a"),Text("b"),Text("c"),],
-          ],
+          row: arow,
+          onRowSelected: (indeksRow, isSelected){
+            print("${arow[indeksRow][0].data}: ${isSelected}");
+          },
         ),
       ),
     );

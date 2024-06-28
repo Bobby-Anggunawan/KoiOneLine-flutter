@@ -36,8 +36,14 @@ class KoiWgDataTable extends StatelessWidget {
     this.borderOuter = const BorderSide(color: Colors.black),
     this.cellContentpadding = const EdgeInsets.symmetric(horizontal: 16),
     this.onSort = null,
-    this.highlightRowIndex = const {}
+    this.highlightRowIndex = const {},
+    this.onRowSelected = null
   }) : super(key: key);
+
+  /// kalau row ditekan dan dia terpilih, fungsi ini akan dipanggil oleh tiap row yang terpilih
+  /// parameter pertama adalah indeks dari row yang dipilih(mulai dari 0)
+  /// parameter kedua, kalau true, berarti row ini terpilih, kalau false, berarti row ini tidak jadi pilih
+  final Function(int selectedRowIndex, bool isSelected)? onRowSelected;
 
   /// tinggi minimal tiap row. Default **52** dapat dari:
   ///
@@ -198,6 +204,8 @@ class KoiWgDataTable extends StatelessWidget {
       borderInnerVertical: borderInnerVertical,
       backgroundColor: headerColor ?? context.koiThemeColor.surfaceVariant,
       backgroundColorSelected: headerColor ?? context.koiThemeColor.surfaceVariant,
+      rowIndex: -1,
+      onRowSelected: null,
     );
 
     return Scrollbar(
@@ -231,6 +239,8 @@ class KoiWgDataTable extends StatelessWidget {
                         borderInnerVertical: borderInnerVertical,
                         backgroundColor: index % 2 == 0 ? (rowColorEven ?? context.koiThemeColor.surface) : (rowColorOdd ?? context.koiThemeColor.surfaceVariant),
                         backgroundColorSelected: context.koiThemeColor.tertiary,
+                        rowIndex: index,
+                        onRowSelected: onRowSelected,
                       );
                     })),
                   ),
@@ -286,11 +296,18 @@ class _RenderRow extends StatefulWidget {
         required this.borderInnerHorizontal,
         required this.backgroundColor,
 
-        required this.backgroundColorSelected
+        required this.backgroundColorSelected,
+        required this.onRowSelected,
+        required this.rowIndex
       }) : super(key: key);
 
   final List<Widget> row;//
   final List<double> width;
+
+  // indeks nomor row di tabel
+  // kan tabel ambil data List<List<Widget>>, variable ini simpan  indeks data di list yang pertama(ling yang nampung list di tabel)
+  final int rowIndex;
+  final Function(int selectedRowIndex, bool isSelected)? onRowSelected;
 
   final Color backgroundColor;
   final Color backgroundColorSelected;
@@ -319,7 +336,15 @@ class _RenderRowState extends State<_RenderRow> {
 
     return GestureDetector(
       onTap: (){
+
         isSelected = !isSelected;
+
+        // TODO, ini bisa diuptimalisasi keknya kalo setstate cuma di parrent
+        if(widget.onRowSelected != null){
+          if(widget.rowIndex >= 0){
+            widget.onRowSelected!(widget.rowIndex, isSelected);
+          }
+        }
         setState(() {});
       },
       child: Container(
