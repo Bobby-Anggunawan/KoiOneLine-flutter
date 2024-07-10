@@ -14,6 +14,7 @@ Library ini terdiri dari beberapa modul antara lain:
 - **page**: kumpulan halaman yang siap digunakan, tinggal inject dengan informasi yang ingin ditampilkan.
 - **lib**: kumpulan fungsi fungsi untuk membantu pengembangan perangkat lunak.
 - **app**: kumpulan widget dan fungsi untuk membentuk kerangka aplikasi dan mengatur config aplikasi, dari routing, lokalisasi, ui responsive, dll.
+- **design_pattern**: kumpulan base class untuk menggunakan design pattern
 
 Sebelum menggunakan library ini, sebaiknya anda menginisialisasi project dengan class `KoiApp` di fungsi `main()` dalam file `main.dart` project anda. Class ini sudah memuat kerangka kerangka dasar yang diperlukan untuk membuat aplikasi seperti routing. Untuk melakukannya, anda dapat menghapus semua isi file `main.dart` lalu memasukkan kode ini:
 ```dart
@@ -61,9 +62,48 @@ Sebenarnya langkah ini optional. Tapi jika anda melakukannya, anda dapat menggun
 TODO: Include short and useful examples for package users. Add longer examples  
 to `/example` folder.
 
-```dart  
-const like = 'sample';  
-```  
+### Design Pattern
+
+Design Pattern gave structure to your code so it makes you easier to read and maintenance it. Actualy you just need a few line to wrote it, but it annoying to keep wrote this code over and over again when working on new project 😌. Thats why i put design pattern here as one submodule of this package 👍.
+
+#### Chain of Responsibility
+
+Use this design pattern when you have chain of process that need to run one by one in order. For example like buying thing at online store, theres chain of process you need to do before you finally get your product from inserting product to cart, then chose payment, and then pay.
+
+So it like **Do this function** and after then **Do those function** and then **Do other function** and so on..
+
+##### Example
+This example create chain of responsibility with 2 handler and store it in `createChain`. And then we run `createChain` by calling `run()` and pass `1` as parameter. The output of this chain are `3` because in each handler, parameter are added by 1 and theres 2 handler there.
+
+**Note** you can use async or normal function in each handler.. Make sure to use `await` when using async function 😉
+
+```dart
+Future<int> asyncAdd(int data)async{
+  await Future.delayed(
+    const Duration(seconds: 1),
+        (){},
+  );
+  return data+1;
+}
+
+int add(int data){
+  return data+1;
+}
+
+void main() {
+  var createChain = ChainOfResponsibility<int>(
+      handle: (data) => asyncAdd(data),
+      nextHandler: ChainOfResponsibility<int>(
+          handle: (data) => add(data),
+          nextHandler: null
+      )
+  );
+
+  createChain.run(1, passToNextHandler: true).then((data){
+    print(data);
+  });
+}
+```
 
 ## Additional information
 
