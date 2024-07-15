@@ -33,7 +33,7 @@ extension FromDateTime on DateTime{
   };
 
   /// true kalau datetime ini sama harinya(bukan jam dan menitnya) dengan Datetime.Now
-  bool isToday(){
+  bool koiIsToday(){
     if(DateTime.now().day == this.day){
       if(DateTime.now().month == this.month){
         if(DateTime.now().year == this.year){
