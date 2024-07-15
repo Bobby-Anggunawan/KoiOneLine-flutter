@@ -32,6 +32,19 @@ extension FromDateTime on DateTime{
     12 : "Dec"
   };
 
+  /// true kalau datetime ini sama harinya(bukan jam dan menitnya) dengan Datetime.Now
+  bool isToday(){
+    if(DateTime.now().day == this.day){
+      if(DateTime.now().month == this.month){
+        if(DateTime.now().year == this.year){
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   /// hanya menampilkan jam saja dari [Datetime] ini.
   ///
   /// **Parameter**
