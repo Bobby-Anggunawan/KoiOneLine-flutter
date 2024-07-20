@@ -14,35 +14,20 @@ enum FieldType{
 class KoiWgForm extends StatefulWidget {
   const KoiWgForm({
     Key? key,
-    required this.title,
-    this.titleStyle = null,
     required this.field,
-    required this.onSubmit,
     this.widgetField = const {},
     this.selectField = const {},
     this.formMaxWidth = 350,
-    this.submitButton,
     this.multilineMaxLine = 12,
-    this.multilineMinLine = 4
+    this.multilineMinLine = 4,
+    required this.onChange
   }) : super(key: key);
 
-  /// title dari form ini
-  final String title;
-  /// textstyle untuk title
-  final TextStyle? titleStyle;
-  /// build tombol submit custom
-  ///
-  /// Parameternya adalah fungsi [onSubmit], yang di expect tertrigger kalau tombol ditekan
-  ///
-  /// **Contoh**
-  ///
-  /// submitButton: (submitFunc){
-  ///                     return ElevatedButton(onPressed: (){
-  ///                       print("ikan asin");
-  ///                       submitFunc();
-  ///                     }, child: Text("Ikan"));
-  ///                   }
-  final Widget Function(Function)? submitButton;
+  /// fungsi ini tertrigger tiap ada perubahan di salahsatu field
+  /// parameternya adalah:
+  /// * Map<String, dynamic> data: data dari semua field
+  /// * String lastChangedKey: key dari field yang terakhir diubah
+  final Function(String lastChangedKey, Map<String, dynamic> data) onChange;
 
   /// lebar maksimal suatu kolom. Default 350
   final double formMaxWidth;
@@ -58,9 +43,6 @@ class KoiWgForm extends StatefulWidget {
   /// menampung daftar isi default value dari field select/dropdown
   /// Note, key widget harus sama dengan key yang ditulis di field
   final Map<String, List<String>> selectField;
-
-  /// fungsi yang di trigger kalau tombol submit ditekan. Menggunakan parameter [field] yang merupakan isi dari semua filed yang ada
-  final void Function(Map<String, dynamic>) onSubmit;
 
   final int multilineMaxLine;
   final int multilineMinLine;
@@ -91,23 +73,6 @@ class _KoiWgFormState extends State<KoiWgForm> {
     });
     //end---cek apa semua widget yang didaftar di field sudah dimasukkan ke widgetField
 
-
-
-    late Widget buildTombolSubmit;
-    if(widget.submitButton != null){
-      buildTombolSubmit = widget.submitButton!((){
-        widget.onSubmit(valueToReturn);
-      });
-    }
-    else{
-      buildTombolSubmit = FilledButton(
-        onPressed: () {
-          widget.onSubmit(valueToReturn);
-        },
-        child: Text("Submit"),
-      );
-    }
-
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(context.koiSpacing.large),
@@ -120,64 +85,59 @@ class _KoiWgFormState extends State<KoiWgForm> {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              widget.title,
-              style: widget.titleStyle ?? context.koiThemeText.headline(),
-            ),
-          ].koiJoinList(
-              List.generate(widget.field.length, (index){
-                if(widget.field.values.toList()[index] == FieldType.text){
-                  return TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: widget.field.keys.toList()[index]
-                    ),
-                    onChanged: (text){
-                      valueToReturn[widget.field.keys.toList()[index]] = text;
-                    },
-                  );
-                }
-                else if(widget.field.values.toList()[index] == FieldType.text_multiline){
-                  return TextField(
-                    keyboardType: TextInputType.multiline,
-                    minLines: widget.multilineMinLine,
-                    maxLines: widget.multilineMaxLine,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: widget.field.keys.toList()[index]
-                    ),
-                    onChanged: (text){
-                      valueToReturn[widget.field.keys.toList()[index]] = text;
-                    },
-                  );
-                }
-                else if(widget.field.values.toList()[index] == FieldType.password){
-                  return _PasswordField(
-                    label: widget.field.keys.toList()[index],
-                    onEdit: (newText){
-                      valueToReturn[widget.field.keys.toList()[index]] = newText;
-                    },
-                  );
-                }
-                else if(widget.field.values.toList()[index] == FieldType.widget){
-                  return widget.widgetField[widget.field.keys.toList()[index]]!;
-                }
-                else if(widget.field.values.toList()[index] == FieldType.select){
-                  return _DropdownField(
-                    onChange: (selected) {
-                      valueToReturn[widget.field.keys.toList()[index]] = selected;
-                    }, initialData: widget.selectField[widget.field.keys.toList()[index]]!,
-                    label: widget.field.keys.toList()[index],
-                  );
-                }
-                else{
-                  throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
-                }
-              })
-          ).koiJoinList([
-            buildTombolSubmit
-          ]).koiAddBetweenElement(
+          children: List<Widget>.generate(widget.field.length, (index){
+            if(widget.field.values.toList()[index] == FieldType.text){
+              return TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: widget.field.keys.toList()[index]
+                ),
+                onChanged: (text){
+                  valueToReturn[widget.field.keys.toList()[index]] = text;
+                  widget.onChange(widget.field.keys.toList()[index], valueToReturn);
+                },
+              );
+            }
+            else if(widget.field.values.toList()[index] == FieldType.text_multiline){
+              return TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: widget.multilineMinLine,
+                maxLines: widget.multilineMaxLine,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: widget.field.keys.toList()[index]
+                ),
+                onChanged: (text){
+                  valueToReturn[widget.field.keys.toList()[index]] = text;
+                  widget.onChange(widget.field.keys.toList()[index], valueToReturn);
+                },
+              );
+            }
+            else if(widget.field.values.toList()[index] == FieldType.password){
+              return _PasswordField(
+                label: widget.field.keys.toList()[index],
+                onEdit: (newText){
+                  valueToReturn[widget.field.keys.toList()[index]] = newText;
+                  widget.onChange(widget.field.keys.toList()[index], valueToReturn);
+                },
+              );
+            }
+            else if(widget.field.values.toList()[index] == FieldType.widget){
+              return widget.widgetField[widget.field.keys.toList()[index]]!;
+            }
+            else if(widget.field.values.toList()[index] == FieldType.select){
+              return _DropdownField(
+                onChange: (selected) {
+                  valueToReturn[widget.field.keys.toList()[index]] = selected;
+                  widget.onChange(widget.field.keys.toList()[index], valueToReturn);
+                }, initialData: widget.selectField[widget.field.keys.toList()[index]]!,
+                label: widget.field.keys.toList()[index],
+              );
+            }
+            else{
+              throw StateError("FieldType: ${widget.field.values.toList()[index].name} belum diimplementasikan");
+            }
+          }).koiAddBetweenElement(
               SizedBox(height: context.koiSpacing.large,)
           ),
         ),
