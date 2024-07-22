@@ -46,66 +46,56 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
 
   late Timer atimer;
 
-  static bool _initiated = false;
-  static bool get initiated{
-    var ret = _initiated;
-    _initiated = true;
-    return ret;
-  }
-
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
 
-    /// coba cegah aplikasi dijalankan 2 kali?
-    if(initiated == false){
-      if(widget.initialization != null){
-        //start timer
-        bool timerSelesai = false;
-        if(widget.redirectAfter != null){
-          Timer(
-              Duration(seconds: widget.redirectAfter!),
-                  (){
-                timerSelesai = true;
-              }
-          );
-        }
-        else{
-          timerSelesai = true;
-        }
-
-        /// jalankan fungsi
-
-        widget.initialization!.then((value){
-          // periksa tiap detik apa timer selesai
-          atimer = Timer.periodic(
-              Duration(seconds: 1),
-                  (time){
-                if(timerSelesai){
-                  if(widget.redirectTo != null && value != false){
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                    Navigator.pushReplacementNamed(context, widget.redirectTo!);
-                  }
-                  time.cancel();
-                }
-              }
-          );
-        });
-      }
-
-      else if(widget.redirectAfter != null){
+    if(widget.initialization != null){
+      //start timer
+      bool timerSelesai = false;
+      if(widget.redirectAfter != null){
         Timer(
             Duration(seconds: widget.redirectAfter!),
                 (){
-              if(widget.redirectTo != null){
-
-                Navigator.popUntil(context, (route) => route.isFirst);
-                Navigator.pushReplacementNamed(context, widget.redirectTo!);
-              }
+              timerSelesai = true;
             }
         );
       }
+      else{
+        timerSelesai = true;
+      }
+
+      /// jalankan fungsi
+
+      widget.initialization!.then((value){
+        // periksa tiap detik apa timer selesai
+        atimer = Timer.periodic(
+            Duration(seconds: 1),
+                (time){
+              if(timerSelesai){
+                if(widget.redirectTo != null && value != false){
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushReplacementNamed(context, widget.redirectTo!);
+                }
+                time.cancel();
+              }
+            }
+        );
+      });
+    }
+
+    else if(widget.redirectAfter != null){
+      Timer(
+          Duration(seconds: widget.redirectAfter!),
+              (){
+            if(widget.redirectTo != null){
+
+              Navigator.popUntil(context, (route) => route.isFirst);
+              Navigator.pushReplacementNamed(context, widget.redirectTo!);
+            }
+          }
+      );
     }
   }
 
