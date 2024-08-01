@@ -14,6 +14,92 @@ import 'package:koi_one_line/koi_one_line.dart';
 /// >result|"data"||0||"nama"|
 class KoiHttp{
 
+  String url = "";
+  BasicRequestUriParam? _uriParam;
+  RequestMethod method = RequestMethod.GET;
+  BasicRequestHeader? _header;
+  FormRequestBody? _bodyForm;
+  List<MultipartFile> _bodyFormFile = [];
+
+  KoiHttp({required this.url, this.method = RequestMethod.GET});
+
+  /// tambah uri param. misalnya  https://pub.dev/packages?q=sasd&page=3
+  KoiHttp addParam(String key, String value){
+    if(_uriParam == null){
+      _uriParam = BasicRequestUriParam();
+    }
+    _uriParam!.addKey(key, value);
+    return this;
+  }
+  KoiHttp addHeader(String key, String value){
+    if(_header == null){
+      _header = BasicRequestHeader();
+    }
+    _header!.addKey(key, value);
+    return this;
+  }
+
+  /// digunakan untuk memasukkan parameter form ke body request
+  /// Contoh penggunaan FormRequestBody().addKey("name", "Clara").addKey("age", 7)
+  /// **NOTE**
+  /// * data yang NULL tidak akan dimasukkan
+  /// * Semua tipe data akan dikonvert jadi STRING, karena body request emang harus string
+  /// * khusus untuk data tipe BOOLEAN akan otomatis diconvert jadi 0 atau 1
+  /// * khusus tipe data DATETIME akan diconvert jadi string dengan format yyyy-mm-dd jj:mm:ss
+  /// * khusus untuk file, harus menggunakan tipe data [MultipartFile]
+  KoiHttp addBodyForm(String key, dynamic value){
+
+    if(!(
+      identical(value, null) ||
+      identical(value, "") ||
+      identical(value, true) ||
+      identical(value, DateTime.now()) ||
+      identical(value, MultipartFile.fromString("a", "aaa.txt"))
+    )){
+      throw AssertionError("tipe data tidak dikenal");
+    }
+
+    if(_bodyForm == null){
+      _bodyForm = FormRequestBody();
+    }
+
+    if(identical(value, MultipartFile.fromString("a", "aaa.txt"))){
+      _bodyFormFile.add(value);
+    }
+    else{
+    _bodyForm!.addKey(key, value);
+    }
+    return this;
+  }
+
+
+  /// jalankan request
+  Future<RequestResult> run()async{
+    late MultipartRequest request;
+    if(_uriParam == null){
+      request = http.MultipartRequest('POST', Uri.parse(url));
+    }
+    else{
+      request = http.MultipartRequest('POST', Uri.parse(url+_uriParam!.uriParam));
+    }
+    if(_bodyForm != null && _bodyForm!.body.isNotEmpty){
+      request.fields.addAll(_bodyForm!.body);
+    }
+    if(_header != null && _header!.header.isNotEmpty){
+      request.headers.addAll(_header!.header);
+    }
+
+    if(_bodyFormFile.isNotEmpty){
+      request.files.addAll(_bodyFormFile);
+    }
+
+    http.StreamedResponse response = await request.send();
+    var ret = await response.stream.bytesToString();
+    return RequestResult(rawData: ret, statusCode: response.statusCode);
+  }
+
+
+  //🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨🧨
   /// Melakukan request dan mengembalikan result sebagai class dynamic (sudah diconvert dengan fungsi jsonDecode()).
   ///
   /// > Class ini belum bisa mengirim file ke server
@@ -203,3 +289,4 @@ class FormRequestBody{
     return this;
   }
 }
+
