@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
+import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:koi_one_line/koi_one_line.dart';
@@ -55,7 +55,7 @@ class KoiHttp{
       identical(value, true) ||
       identical(value, DateTime.now()) ||
       identical(value, MultipartFile.fromString("a", "aaa.txt")) ||
-      identical(value, Uint8List(1))
+      identical(value, Uint8List.fromList([1]))
     )){
       throw AssertionError("tipe data tidak dikenal");
     }
@@ -67,7 +67,7 @@ class KoiHttp{
     if(identical(value, MultipartFile.fromString("a", "aaa.txt")) ){
       _bodyFormFile.add(value);
     }
-    else if(identical(value, Uint8List(1))){
+    else if(identical(value, Uint8List.fromList([1]))){
       _bodyFormFile.add(
           MultipartFile.fromBytes(key, value)
       );
