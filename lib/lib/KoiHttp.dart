@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:nativewrappers/_internal/vm/lib/typed_data_patch.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:koi_one_line/koi_one_line.dart';
@@ -46,15 +47,15 @@ class KoiHttp{
   /// * Semua tipe data akan dikonvert jadi STRING, karena body request emang harus string
   /// * khusus untuk data tipe BOOLEAN akan otomatis diconvert jadi 0 atau 1
   /// * khusus tipe data DATETIME akan diconvert jadi string dengan format yyyy-mm-dd jj:mm:ss
-  /// * khusus untuk file, harus menggunakan tipe data [MultipartFile]
+  /// * khusus untuk file, harus menggunakan tipe data [MultipartFile] atau [Uint8List]
   KoiHttp addBodyForm(String key, dynamic value){
-
     if(!(
       identical(value, null) ||
       identical(value, "") ||
       identical(value, true) ||
       identical(value, DateTime.now()) ||
-      identical(value, MultipartFile.fromString("a", "aaa.txt"))
+      identical(value, MultipartFile.fromString("a", "aaa.txt")) ||
+      identical(value, Uint8List(1))
     )){
       throw AssertionError("tipe data tidak dikenal");
     }
@@ -63,8 +64,13 @@ class KoiHttp{
       _bodyForm = FormRequestBody();
     }
 
-    if(identical(value, MultipartFile.fromString("a", "aaa.txt"))){
+    if(identical(value, MultipartFile.fromString("a", "aaa.txt")) ){
       _bodyFormFile.add(value);
+    }
+    else if(identical(value, Uint8List(1))){
+      _bodyFormFile.add(
+          MultipartFile.fromBytes(key, value)
+      );
     }
     else{
     _bodyForm!.addKey(key, value);
