@@ -97,6 +97,18 @@ extension FromList<T> on List<T>{
     return toReturn;
   }
 
+  /// misalnya remove semua widget SizeBox dari daftar widget
+  List<U> koiRemoveElementWithType<U>(dynamic elementToRemove){
+    List<U> toReturn = [];
+    this.forEach((element) {
+      if(identical(element, elementToRemove) == false){
+        toReturn.add(element as U);
+      }
+    });
+
+    return toReturn;
+  }
+
   /// menambah element ini ke list ini jika isi list kosong.
   /// > misalnya di listview, bisa pakai fungsi ini untuk menampilkan test "data kosong" jika isi list sedang kosong
   ///
