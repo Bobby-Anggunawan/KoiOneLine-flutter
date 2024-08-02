@@ -43,17 +43,6 @@ class KoiHttp{
   /// * khusus tipe data DATETIME akan diconvert jadi string dengan format yyyy-mm-dd jj:mm:ss
   /// * khusus untuk file, harus menggunakan tipe data [MultipartFile] atau [Uint8List]
   KoiHttp addBodyForm(String key, dynamic value){
-    if(!(
-      identical(value, null) ||
-      identical(value, "") ||
-      identical(value, true) ||
-      identical(value, DateTime.now()) ||
-      identical(value, MultipartFile.fromString("a", "aaa.txt")) ||
-      identical(value, Uint8List.fromList([1]))
-    )){
-      throw AssertionError("tipe data tidak dikenal");
-    }
-
     if(identical(value, MultipartFile.fromString("a", "aaa.txt")) ){
       _bodyFormFile.add(value);
     }
