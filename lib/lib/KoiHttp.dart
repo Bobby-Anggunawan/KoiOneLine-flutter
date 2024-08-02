@@ -49,8 +49,10 @@ class KoiHttp{
 
   /// menambah file di form. kalo menambahkan data lain, gunakan [addBodyForm]
   /// note, keknya masukkan ke MultipartFile
-  KoiHttp addBodyFormFile(MultipartFile value){
-    _bodyFormFile.add(value);
+  KoiHttp addBodyFormFile(MultipartFile? value){
+    if(value != null){
+      _bodyFormFile.add(value);
+    }
     return this;
   }
 
