@@ -16,27 +16,21 @@ import 'package:koi_one_line/koi_one_line.dart';
 class KoiHttp{
 
   String url = "";
-  BasicRequestUriParam? _uriParam;
+  BasicRequestUriParam _uriParam = BasicRequestUriParam();
   RequestMethod method = RequestMethod.GET;
-  BasicRequestHeader? _header;
-  FormRequestBody? _bodyForm;
+  BasicRequestHeader _header = BasicRequestHeader();
+  FormRequestBody _bodyForm = FormRequestBody();
   List<MultipartFile> _bodyFormFile = [];
 
   KoiHttp({required this.url, this.method = RequestMethod.GET});
 
   /// tambah uri param. misalnya  https://pub.dev/packages?q=sasd&page=3
   KoiHttp addParam(String key, String value){
-    if(_uriParam == null){
-      _uriParam = BasicRequestUriParam();
-    }
-    _uriParam!.addKey(key, value);
+    _uriParam.addKey(key, value);
     return this;
   }
   KoiHttp addHeader(String key, String value){
-    if(_header == null){
-      _header = BasicRequestHeader();
-    }
-    _header!.addKey(key, value);
+    _header.addKey(key, value);
     return this;
   }
 
@@ -60,10 +54,6 @@ class KoiHttp{
       throw AssertionError("tipe data tidak dikenal");
     }
 
-    if(_bodyForm == null){
-      _bodyForm = FormRequestBody();
-    }
-
     if(identical(value, MultipartFile.fromString("a", "aaa.txt")) ){
       _bodyFormFile.add(value);
     }
@@ -73,7 +63,7 @@ class KoiHttp{
       );
     }
     else{
-    _bodyForm!.addKey(key, value);
+    _bodyForm.addKey(key, value);
     }
     return this;
   }
@@ -82,17 +72,17 @@ class KoiHttp{
   /// jalankan request
   Future<RequestResult> run()async{
     late MultipartRequest request;
-    if(_uriParam == null){
+    if(_uriParam.keys.isEmpty){
       request = http.MultipartRequest('POST', Uri.parse(url));
     }
     else{
-      request = http.MultipartRequest('POST', Uri.parse(url+_uriParam!.uriParam));
+      request = http.MultipartRequest('POST', Uri.parse(url+_uriParam.uriParam));
     }
-    if(_bodyForm != null && _bodyForm!.body.isNotEmpty){
-      request.fields.addAll(_bodyForm!.body);
+    if(_bodyForm.body.isNotEmpty){
+      request.fields.addAll(_bodyForm.body);
     }
-    if(_header != null && _header!.header.isNotEmpty){
-      request.headers.addAll(_header!.header);
+    if(_header.header.isNotEmpty){
+      request.headers.addAll(_header.header);
     }
 
     if(_bodyFormFile.isNotEmpty){
