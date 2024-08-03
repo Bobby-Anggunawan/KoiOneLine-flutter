@@ -61,10 +61,10 @@ class KoiHttp{
   Future<RequestResult> run()async{
     late MultipartRequest request;
     if(_uriParam.keys.isEmpty){
-      request = http.MultipartRequest('POST', Uri.parse(url));
+      request = http.MultipartRequest(method.name, Uri.parse(url));
     }
     else{
-      request = http.MultipartRequest('POST', Uri.parse(url+_uriParam.uriParam));
+      request = http.MultipartRequest(method.name, Uri.parse(url+_uriParam.uriParam));
     }
     if(_bodyForm.body.isNotEmpty){
       request.fields.addAll(_bodyForm.body);
