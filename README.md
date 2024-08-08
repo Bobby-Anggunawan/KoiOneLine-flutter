@@ -113,6 +113,7 @@ from the package authors, and more.
 
 ### Dependency
 - [http](https://pub.dev/packages/http)
+- [infinite_scroll_pagination ](https://pub.dev/packages/infinite_scroll_pagination)
 
 ## TODO
 
