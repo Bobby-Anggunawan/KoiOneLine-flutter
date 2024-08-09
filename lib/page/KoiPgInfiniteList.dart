@@ -107,7 +107,7 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
     });
 
     widget.controller?._onRefresh = (){
-      print("KUDA SAPI AYAM!@#");
+      controller.refresh();
     };
 
 
