@@ -8,8 +8,8 @@ class KoiPgInfiniteList extends StatefulWidget {
 
     required this.fetchPage,
     this.pageStart = 1,
-    this.pagingController = null,
     this.leading = const [],
+    this.controller = null,
 
     this.appBar,
     this.floatingActionButton,
@@ -43,7 +43,7 @@ class KoiPgInfiniteList extends StatefulWidget {
   /// controller untuk mengatur paging
   ///
   /// Init dengan [PagingController(firstPageKey: widget.pageStart)]
-  final PagingController<int, Widget>? pagingController;
+  final KoiPgInfiniteListController? controller;
 
   /// daftar widget yang diletakkan sebelum list
   final List<Widget> leading;
@@ -87,34 +87,16 @@ class KoiPgInfiniteList extends StatefulWidget {
 
 class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
 
-  late PagingController<int, Widget> _pagingController;
-  PagingController<int, Widget> get controller{
-    if(widget.pagingController == null){
-      return _pagingController;
-    }
-    return widget.pagingController!;
-  }
+  late PagingController<int, Widget> controller;
 
   @override
   void initState() {
-    if(widget.pagingController == null){
-      _pagingController = PagingController(firstPageKey: widget.pageStart);
 
-      // tambah daftar widget leading yang dimasuukkan sebagai parameter widget ini
-      controller.appendPage(widget.leading, controller.firstPageKey);
+    controller = PagingController(firstPageKey: widget.pageStart);
 
-      controller.addPageRequestListener((pageKey) {
-        widget.fetchPage(pageKey).then((adata){
-          // berhenti tambah data
-          if(adata == null || adata.isEmpty){
-            controller.nextPageKey = null;
-          }
-          else{
-            controller.appendPage(adata, pageKey+1);
-          }
-        });
-      });
-    }
+    widget.controller?._onRefresh = (){
+      print("KUDA SAPI AYAM!@#");
+    };
 
 
     super.initState();
@@ -164,4 +146,16 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
       restorationId: widget.restorationId,
     );
   }
+}
+
+
+class KoiPgInfiniteListController{
+
+  KoiPgInfiniteListController();
+
+  void refresh(){
+    _onRefresh!();
+  }
+
+  Function? _onRefresh;
 }
