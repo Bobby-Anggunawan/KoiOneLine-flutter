@@ -93,6 +93,18 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
   void initState() {
 
     controller = PagingController(firstPageKey: widget.pageStart);
+    controller = PagingController(firstPageKey: widget.pageStart);
+    controller.addPageRequestListener((pageKey) {
+      widget.fetchPage(pageKey).then((adata){
+        // berhenti tambah data
+        if(adata == null || adata.isEmpty){
+          controller.nextPageKey = null;
+        }
+        else{
+          controller.appendPage(adata, pageKey+1);
+        }
+      });
+    });
 
     widget.controller?._onRefresh = (){
       print("KUDA SAPI AYAM!@#");
