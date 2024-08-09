@@ -8,6 +8,8 @@ class KoiPgInfiniteList extends StatefulWidget {
 
     required this.fetchPage,
     this.pageStart = 1,
+    this.pagingController = null,
+    this.leading = const [],
 
     this.appBar,
     this.floatingActionButton,
@@ -37,6 +39,14 @@ class KoiPgInfiniteList extends StatefulWidget {
 
   /// page awal halaman ini mulai fetch. defaultnya 1
   final int pageStart;
+
+  /// controller untuk mengatur paging
+  ///
+  /// Init dengan [PagingController(firstPageKey: widget.pageStart)]
+  final PagingController<int, Widget>? pagingController;
+
+  /// daftar widget yang diletakkan sebelum list
+  final List<Widget> leading;
 
   /// Fungsi untuk mengambil data
   ///
@@ -78,21 +88,33 @@ class KoiPgInfiniteList extends StatefulWidget {
 class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
 
   late PagingController<int, Widget> _pagingController;
+  PagingController<int, Widget> get controller{
+    if(widget.pagingController == null){
+      return _pagingController;
+    }
+    return widget.pagingController!;
+  }
 
   @override
   void initState() {
-    _pagingController = PagingController(firstPageKey: widget.pageStart);
-    _pagingController.addPageRequestListener((pageKey) {
-      widget.fetchPage(pageKey).then((adata){
-        // berhenti tambah data
-        if(adata == null || adata.isEmpty){
-          _pagingController.nextPageKey = null;
-        }
-        else{
-          _pagingController.appendPage(adata, pageKey+1);
-        }
+    if(widget.pagingController == null){
+      _pagingController = PagingController(firstPageKey: widget.pageStart);
+
+      // tambah daftar widget leading yang dimasuukkan sebagai parameter widget ini
+      controller.appendPage(widget.leading, controller.firstPageKey);
+
+      controller.addPageRequestListener((pageKey) {
+        widget.fetchPage(pageKey).then((adata){
+          // berhenti tambah data
+          if(adata == null || adata.isEmpty){
+            controller.nextPageKey = null;
+          }
+          else{
+            controller.appendPage(adata, pageKey+1);
+          }
+        });
       });
-    });
+    }
 
 
     super.initState();
@@ -100,7 +122,7 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
 
   @override
   void dispose() {
-    _pagingController.dispose();
+    controller.dispose();
 
 
     super.dispose();
@@ -111,7 +133,7 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
     return Scaffold(
 
       body: PagedListView<int, Widget>(
-        pagingController: _pagingController,
+        pagingController: controller,
         builderDelegate: PagedChildBuilderDelegate(itemBuilder: (BuildContext context, Widget item, int index) {
           return item;
         }),
