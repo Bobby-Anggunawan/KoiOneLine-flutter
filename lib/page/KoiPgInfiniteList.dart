@@ -45,7 +45,8 @@ class KoiPgInfiniteList extends StatefulWidget {
   /// Init dengan [PagingController(firstPageKey: widget.pageStart)]
   final KoiPgInfiniteListController? controller;
 
-  /// daftar widget yang diletakkan sebelum list
+  /// daftar widget yang diletakkan sebelum list yang akan di fetch
+  /// note, gak ada trailing karena kan ini harusnya infite list :v
   final List<Widget> leading;
 
   /// Fungsi untuk mengambil data
@@ -91,10 +92,14 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
 
   @override
   void initState() {
-
-    controller = PagingController(firstPageKey: widget.pageStart);
     controller = PagingController(firstPageKey: widget.pageStart);
     controller.addPageRequestListener((pageKey) {
+
+      // disini tambah widget leading
+      if(pageKey == controller.firstPageKey){
+        controller.appendPage(widget.leading, pageKey);
+      }
+
       widget.fetchPage(pageKey).then((adata){
         // berhenti tambah data
         if(adata == null || adata.isEmpty){
