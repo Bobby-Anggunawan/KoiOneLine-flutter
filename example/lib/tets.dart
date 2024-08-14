@@ -16,24 +16,32 @@ class _TestState extends State<Test> {
 
     String display = "";
 
-    return KoiPgInfiniteList(
-
-      leading: [
-        Text("ini lead  text 1"),
-        Text("ini lead  text 2"),
+    return KoiPgPoints(
+      page: [
+        PointPage(
+          icon: Icons.abc,
+          title: 'Ini title satu',
+          subtitle: 'ini adalah penjelassan untuk halaman point yang pertama untuk dipakai test',
+          illustration: Image.network("https://th.bing.com/th/id/OIP.XZDvYoSgdI8NIZQshTErgAHaNK?w=178&h=317&c=7&r=0&o=5&pid=1.7"),
+        ),
+        PointPage(
+          icon: Icons.account_tree_sharp,
+          title: 'Ini title dua',
+          subtitle: 'ini adalah penjelassan untuk halaman point yang kedua untuk dipakai test',
+          illustration: Center(
+            child: ElevatedButton(onPressed: (){}, child: Text("sapi")),
+          ),
+        ),
+        PointPage(
+          icon: Icons.add_a_photo,
+          title: 'Ini title tiga',
+          subtitle: 'ini adalah penjelassan untuk halaman point yang ketiga untuk dipakai test',
+          illustration: Image.network("https://th.bing.com/th/id/OIP.Zly6aAd7JrZG2J6cFCJ0hwHaNK?w=178&h=287&c=7&r=0&o=5&pid=1.7"),
+          helpIconClicked: (){
+            print("klik tombol help");
+          },
+        ),
       ],
-
-        fetchPage: (page)async{
-      if(page < 5){
-        return [
-          Text("satu${page}"),
-          Text("dua${page}"),
-          Text("tiga${page}"),
-          Text("empat${page}"),
-          Text("lima${page}-------------------"),
-        ];
-      }
-      return null;
-    });
+    );
   }
 }

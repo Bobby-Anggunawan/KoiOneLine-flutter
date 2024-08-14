@@ -118,6 +118,7 @@ from the package authors, and more.
 ## TODO
 
 - [ ] **KoiPgSplash**: buat default splash di `_DefaultSplash`
+- [ ] **KoiPgPoints**: buat dot jadi  punya animasi dan bisa kayak scroll jadi bisa menampung lebih banyak halaman
 
 
 ## Migration
