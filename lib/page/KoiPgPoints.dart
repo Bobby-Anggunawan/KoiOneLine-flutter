@@ -7,10 +7,13 @@ import 'package:koi_one_line/page/KoiPgForm.dart';
 
 /// widget untuk menjelaskan point point secara detail. Bisa digunakan untuk menjelaskan fitur aplikasi atau menjelaskan data yang dipakai di aplikasi ini(privacy policy)
 class KoiPgPoints extends StatefulWidget {
-  const KoiPgPoints({super.key, required this.page});
+  const KoiPgPoints({super.key, required this.page, required this.onComplete});
 
   /// point point yang ingin dijelaskan
   final List<PointPage> page;
+
+  /// yang terjadi setelah klik tombol ok di akhir point
+  final Function? onComplete;
 
   @override
   State<KoiPgPoints> createState() => _KoiPgPointsState();
@@ -59,6 +62,14 @@ class _KoiPgPointsState extends State<KoiPgPoints> {
                     }, child: Text("Next"));
                   }
 
+                  else if(initPage == widget.page.length-1){
+                    if(widget.onComplete != null){
+                      return TextButton(onPressed: (){
+                        widget.onComplete!();
+                      }, child: Text("Next"));
+                    }
+                  }
+
                   return SizedBox();
                 })
             ),
@@ -82,8 +93,12 @@ class PointPage extends StatelessWidget {
     required this.subtitle,
     this.illustration,
     this.helpIcon = Icons.help,
-    this.helpIconClicked = null
+    this.helpIconClicked = null,
+
+    this.background = null
   });
+
+  final Widget? background;
 
   /// icon yangt ditmpilkan di tengah diatas judul
   final IconData? icon;
@@ -99,48 +114,53 @@ class PointPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
-      child: Column(
-        children: [
-          Builder(builder: (context){
-            if(helpIconClicked!=null){
-              return Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  IconButton(onPressed: (){
-                    helpIconClicked!();
-                  }, icon: Icon(helpIcon))
-                ],
-              );
-            }
-            return SizedBox();
-          }),
-
-          Builder(builder: (context){
-            if(icon!=null){
-              return Icon(icon, color: context.koiThemeColor.primary,);
-            }
-            return SizedBox();
-          }),
-
-          Text(title, style: context.koiThemeText.title(),),
-
-          Row(
+    return Stack(
+      children: [
+        background ?? SizedBox(),
+        Padding(
+          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          child: Column(
             children: [
-              Expanded(child: Text(subtitle, style: context.koiThemeText.body(), textAlign: TextAlign.center,))
-            ],
-          ),
+              Builder(builder: (context){
+                if(helpIconClicked!=null){
+                  return Row(
+                    children: [
+                      Expanded(child: SizedBox()),
+                      IconButton(onPressed: (){
+                        helpIconClicked!();
+                      }, icon: Icon(helpIcon))
+                    ],
+                  );
+                }
+                return SizedBox();
+              }),
 
-          Expanded(
-              child: Builder(builder: (context){
-                return SingleChildScrollView(
-                  child: illustration,
-                ) ?? SizedBox();
-              })
+              Builder(builder: (context){
+                if(icon!=null){
+                  return Icon(icon, color: context.koiThemeColor.primary,);
+                }
+                return SizedBox();
+              }),
+
+              Text(title, style: context.koiThemeText.title(),),
+
+              Row(
+                children: [
+                  Expanded(child: Text(subtitle, style: context.koiThemeText.body(), textAlign: TextAlign.center,))
+                ],
+              ),
+
+              Expanded(
+                  child: Builder(builder: (context){
+                    return SingleChildScrollView(
+                      child: illustration,
+                    ) ?? SizedBox();
+                  })
+              ),
+            ].koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
           ),
-        ].koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
-      ),
+        )
+      ],
     );
   }
 }
