@@ -7,7 +7,9 @@ import 'package:koi_one_line/page/KoiPgForm.dart';
 
 /// widget untuk menjelaskan point point secara detail. Bisa digunakan untuk menjelaskan fitur aplikasi atau menjelaskan data yang dipakai di aplikasi ini(privacy policy)
 class KoiPgPoints extends StatefulWidget {
-  const KoiPgPoints({super.key, required this.page, required this.onComplete});
+  const KoiPgPoints({super.key, required this.page, this.onComplete = null, this.background = null});
+
+  final Widget? background;
 
   /// point point yang ingin dijelaskan
   final List<PointPage> page;
@@ -27,57 +29,64 @@ class _KoiPgPointsState extends State<KoiPgPoints> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Expanded(
-            child: widget.page[initPage]
-        ),
-        Row(
+
+        widget.background ?? SizedBox(),
+
+        Column(
           children: [
             Expanded(
-                child: Builder(builder: (context){
-                  if(initPage > 0){
-                    return TextButton(onPressed: (){
-                      initPage -= 1;
-                      con.setPage(initPage);
-                      setState(() {});
-                    }, child: Text("Previous"));
-                  }
-
-                  return SizedBox();
-                })
+                child: widget.page[initPage]
             ),
-            Expanded(
-                child: Center(
-                  child: _PageDot(pageNumber: widget.page.length, controller: con,),
-                )
-            ),
-            Expanded(
-                child: Builder(builder: (context){
-                  if(initPage < widget.page.length-1){
-                    return TextButton(onPressed: (){
-                      initPage += 1;
-                      con.setPage(initPage);
-                      setState(() {});
-                    }, child: Text("Next"));
-                  }
+            Row(
+              children: [
+                Expanded(
+                    child: Builder(builder: (context){
+                      if(initPage > 0){
+                        return TextButton(onPressed: (){
+                          initPage -= 1;
+                          con.setPage(initPage);
+                          setState(() {});
+                        }, child: Text("Previous"));
+                      }
 
-                  else if(initPage == widget.page.length-1){
-                    if(widget.onComplete != null){
-                      return TextButton(onPressed: (){
-                        widget.onComplete!();
-                      }, child: Text("Next"));
-                    }
-                  }
+                      return SizedBox();
+                    })
+                ),
+                Expanded(
+                    child: Center(
+                      child: _PageDot(pageNumber: widget.page.length, controller: con,),
+                    )
+                ),
+                Expanded(
+                    child: Builder(builder: (context){
+                      if(initPage < widget.page.length-1){
+                        return TextButton(onPressed: (){
+                          initPage += 1;
+                          con.setPage(initPage);
+                          setState(() {});
+                        }, child: Text("Next"));
+                      }
 
-                  return SizedBox();
-                })
+                      else if(initPage == widget.page.length-1){
+                        if(widget.onComplete != null){
+                          return TextButton(onPressed: (){
+                            widget.onComplete!();
+                          }, child: Text("Next"));
+                        }
+                      }
+
+                      return SizedBox();
+                    })
+                ),
+              ],
             ),
+
+            /// cuma untuk supaya tombol next dan previous tidak terlalu dempet ke bawah
+            SizedBox(height: context.koiSpacing.autoFromScreenEdge,)
           ],
-        ),
-
-        /// cuma untuk supaya tombol next dan previous tidak terlalu dempet ke bawah
-        SizedBox(height: context.koiSpacing.autoFromScreenEdge,)
+        )
       ],
     );
   }
@@ -94,11 +103,7 @@ class PointPage extends StatelessWidget {
     this.illustration,
     this.helpIcon = Icons.help,
     this.helpIconClicked = null,
-
-    this.background = null
   });
-
-  final Widget? background;
 
   /// icon yangt ditmpilkan di tengah diatas judul
   final IconData? icon;
@@ -114,53 +119,48 @@ class PointPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        background ?? SizedBox(),
-        Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
-          child: Column(
-            children: [
-              Builder(builder: (context){
-                if(helpIconClicked!=null){
-                  return Row(
-                    children: [
-                      Expanded(child: SizedBox()),
-                      IconButton(onPressed: (){
-                        helpIconClicked!();
-                      }, icon: Icon(helpIcon))
-                    ],
-                  );
-                }
-                return SizedBox();
-              }),
-
-              Builder(builder: (context){
-                if(icon!=null){
-                  return Icon(icon, color: context.koiThemeColor.primary,);
-                }
-                return SizedBox();
-              }),
-
-              Text(title, style: context.koiThemeText.title(),),
-
-              Row(
+    return Padding(
+      padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+      child: Column(
+        children: [
+          Builder(builder: (context){
+            if(helpIconClicked!=null){
+              return Row(
                 children: [
-                  Expanded(child: Text(subtitle, style: context.koiThemeText.body(), textAlign: TextAlign.center,))
+                  Expanded(child: SizedBox()),
+                  IconButton(onPressed: (){
+                    helpIconClicked!();
+                  }, icon: Icon(helpIcon))
                 ],
-              ),
+              );
+            }
+            return SizedBox();
+          }),
 
-              Expanded(
-                  child: Builder(builder: (context){
-                    return SingleChildScrollView(
-                      child: illustration,
-                    ) ?? SizedBox();
-                  })
-              ),
-            ].koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
+          Builder(builder: (context){
+            if(icon!=null){
+              return Icon(icon, color: context.koiThemeColor.primary,);
+            }
+            return SizedBox();
+          }),
+
+          Text(title, style: context.koiThemeText.title(),),
+
+          Row(
+            children: [
+              Expanded(child: Text(subtitle, style: context.koiThemeText.body(), textAlign: TextAlign.center,))
+            ],
           ),
-        )
-      ],
+
+          Expanded(
+              child: Builder(builder: (context){
+                return SingleChildScrollView(
+                  child: illustration,
+                ) ?? SizedBox();
+              })
+          ),
+        ].koiAddBetweenElement(SizedBox(height: context.koiSpacing.autoBeetweenPane,)),
+      ),
     );
   }
 }
