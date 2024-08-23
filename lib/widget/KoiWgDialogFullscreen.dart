@@ -20,7 +20,8 @@ class KoiWgDialogFullscreen extends StatelessWidget {
   }) : super(key: key);
 
   /// fungsi yang dijalankan kalau tombol confirm ditekan
-  final Function onConfirm;
+  /// isikan ini dengan nul kalau mau buat dialog tanpa tombol ini
+  final Function? onConfirm;
 
   /// subtitle optional yang menjelaskan isi dialog
   final String? subtitle;
@@ -64,23 +65,30 @@ class KoiWgDialogFullscreen extends StatelessWidget {
 
                 Expanded(child: Container()),
 
-                TextButton.icon(
-                  onPressed: (){
-                    onConfirm();
-                  },
-                  style: ButtonStyle(
-                      iconColor: MaterialStateProperty.resolveWith((states){
-                        return context.koiThemeColor.onPrimaryContainer;
-                      })
-                  ),
-                  label: Text(
-                    confirmButtonText,
-                    style: TextStyle(
-                        color: context.koiThemeColor.onPrimaryContainer
-                    ),
-                  ),
-                  icon: Icon(confirmButtonIcon),
-                )
+                Builder(builder: (context){
+                  if(onConfirm != null){
+                    return TextButton.icon(
+                      onPressed: (){
+                        onConfirm!();
+                      },
+                      style: ButtonStyle(
+                          iconColor: MaterialStateProperty.resolveWith((states){
+                            return context.koiThemeColor.onPrimaryContainer;
+                          })
+                      ),
+                      label: Text(
+                        confirmButtonText,
+                        style: TextStyle(
+                            color: context.koiThemeColor.onPrimaryContainer
+                        ),
+                      ),
+                      icon: Icon(confirmButtonIcon),
+                    );
+                  }
+                  else{
+                    return SizedBox();
+                  }
+                }),
               ],
             ),
 
