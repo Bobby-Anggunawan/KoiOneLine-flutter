@@ -16,32 +16,74 @@ class _TestState extends State<Test> {
 
     String display = "";
 
-    return KoiPgPoints(
-      page: [
-        PointPage(
-          icon: Icons.abc,
-          title: 'Ini title satu',
-          subtitle: 'ini adalah penjelassan untuk halaman point yang pertama untuk dipakai test',
-          illustration: Image.network("https://th.bing.com/th/id/OIP.XZDvYoSgdI8NIZQshTErgAHaNK?w=178&h=317&c=7&r=0&o=5&pid=1.7"),
-        ),
-        PointPage(
-          icon: Icons.account_tree_sharp,
-          title: 'Ini title dua',
-          subtitle: 'ini adalah penjelassan untuk halaman point yang kedua untuk dipakai test',
-          illustration: Center(
-            child: ElevatedButton(onPressed: (){}, child: Text("sapi")),
+    return KoiPgHome.GridMenu(appBar: AppBar(title: Text("An app bar"),),
+        menu: [
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/aa',
+            name: 'aaa', onClick: null,
+            backgroundColor: Colors.teal,
           ),
-        ),
-        PointPage(
-          icon: Icons.add_a_photo,
-          title: 'Ini title tiga',
-          subtitle: 'ini adalah penjelassan untuk halaman point yang ketiga untuk dipakai test',
-          illustration: Image.network("https://th.bing.com/th/id/OIP.Zly6aAd7JrZG2J6cFCJ0hwHaNK?w=178&h=287&c=7&r=0&o=5&pid=1.7"),
-          helpIconClicked: (){
-            print("klik tombol help");
-          },
-        ),
-      ], onComplete: null,
-    );
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/bb',
+            name: 'bb', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/cc',
+            name: 'cc', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/dd',
+            name: 'dd', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/ee',
+            name: 'ee', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/ff',
+            name: 'ff', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/gg',
+            name: 'gg', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/hh',
+            name: 'hh', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/ii',
+            name: 'ii', onClick: null,
+            backgroundColor: Colors.teal,
+          ),HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/jj',
+            name: 'jj', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+          HomeMenuIcon(
+            icon: Icon(Icons.access_time),
+            routeName: '/kk',
+            name: 'kk', onClick: null,
+            backgroundColor: Colors.teal,
+          ),
+
+        ]);
   }
 }

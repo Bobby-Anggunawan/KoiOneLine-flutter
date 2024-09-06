@@ -16,6 +16,7 @@ class GridMenu extends StatelessWidget {
       shrinkWrap: true,
       crossAxisCount: crossAxisCount,
       children: menu,
+      physics: const NeverScrollableScrollPhysics()
     );
   }
 
