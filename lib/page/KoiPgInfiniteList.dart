@@ -97,6 +97,12 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
       widget.fetchPage(pageKey).then((adata){
         // berhenti tambah data
         if(adata == null || adata.isEmpty){
+
+          /// kalau di page pertama data langsung kosong(belum ada data masuk misalnya)
+          if(pageKey == controller.firstPageKey){
+            controller.appendLastPage([]);
+          }
+
           controller.nextPageKey = null;
         }
         else{
