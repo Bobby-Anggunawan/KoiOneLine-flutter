@@ -101,10 +101,11 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
 
     atimer.cancel();
+
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
