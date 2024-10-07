@@ -1,6 +1,6 @@
-import 'package:file_picker/file_picker.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:koi_one_line/koi_one_line.dart';
 
 class Test extends StatefulWidget {
@@ -16,74 +16,46 @@ class _TestState extends State<Test> {
 
     String display = "";
 
-    return KoiPgHome.GridMenu(appBar: AppBar(title: Text("An app bar"),),
-        menu: [
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/aa',
-            name: 'aaa', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/bb',
-            name: 'bb', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/cc',
-            name: 'cc', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/dd',
-            name: 'dd', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/ee',
-            name: 'ee', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/ff',
-            name: 'ff', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/gg',
-            name: 'gg', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/hh',
-            name: 'hh', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/ii',
-            name: 'ii', onClick: null,
-            backgroundColor: Colors.teal,
-          ),HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/jj',
-            name: 'jj', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-          HomeMenuIcon(
-            icon: Icon(Icons.access_time),
-            routeName: '/kk',
-            name: 'kk', onClick: null,
-            backgroundColor: Colors.teal,
-          ),
-
-        ]);
+    return Scaffold(
+      body: Center(
+        child: KoiWgInput.MultiSelectWithSearch(
+          suggestion: [
+            KoiDataItem(label: Text("Satu"), data: 'Satu'),
+            KoiDataItem(label: Text("empat"), data: 'empat'),
+          ],
+            onSelected: (newData){
+              print(">:D>${jsonEncode(newData)}");
+            },
+            label: Text("Kota"),
+            onSearch: (query)async{
+          if(query.length>3){
+            return [
+              KoiDataItem(label: Text("Satu"), data: 'Satu'),
+            ];
+          }
+          else if(query.length>2){
+            return [
+              KoiDataItem(label: Text("Satu"), data: 'Satu'),
+              KoiDataItem(label: Text("dua"), data: 'dua'),
+            ];
+          }
+          else if(query.length>1){
+            return [
+              KoiDataItem(label: Text("Satu"), data: 'Satu'),
+              KoiDataItem(label: Text("dua"), data: 'dua'),
+              KoiDataItem(label: Text("tiga"), data: 'tiga'),
+            ];
+          }
+          else{
+            return [
+              KoiDataItem(label: Text("Satu"), data: 'Satu'),
+              KoiDataItem(label: Text("dua"), data: 'dua'),
+              KoiDataItem(label: Text("tiga"), data: 'tiga'),
+              KoiDataItem(label: Text("empat"), data: 'empat'),
+            ];
+          }
+        }),
+      ),
+    );
   }
 }

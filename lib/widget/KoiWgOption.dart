@@ -7,6 +7,7 @@ enum OptionMode{
 }
 
 /// membuat option daftar tombol yang bisa dipilih
+/// todo, masukkan ke KoiWgInput
 class KoiWgOption<T> extends StatefulWidget {
   const KoiWgOption({Key? key, required this.options, this.maxOptionSelected = -1 >>> 1, required this.optionMode, required this.onOptionChange, this.styleUnselected = null, this.styleSelected = null, this.disabled = false, this.defaultOption = const []}) : super(key: key);
 
