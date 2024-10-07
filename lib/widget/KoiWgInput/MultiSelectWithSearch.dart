@@ -117,6 +117,8 @@ class _MultiSelectWithSearchState extends State<MultiSelectWithSearch> {
         ),
 
         Wrap(
+          alignment: WrapAlignment.start,
+          runAlignment: WrapAlignment.start,
           spacing: context.koiSpacing.smallest,
           runSpacing: context.koiSpacing.smallest,
           children: List.generate(suggestion.length, (index){
