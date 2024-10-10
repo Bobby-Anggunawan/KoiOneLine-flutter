@@ -100,7 +100,7 @@ class _KoiPgInfiniteListState extends State<KoiPgInfiniteList> {
 
           /// kalau di page pertama data langsung kosong(belum ada data masuk misalnya)
           if(pageKey == controller.firstPageKey){
-            controller.appendLastPage([]);
+            controller.appendLastPage(widget.leading);
           }
 
           controller.nextPageKey = null;
