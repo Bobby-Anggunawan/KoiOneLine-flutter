@@ -74,11 +74,11 @@ class _KoiPgSplashState extends State<KoiPgSplash> {
             Duration(seconds: 1),
                 (time){
               if(timerSelesai){
+                time.cancel();
                 if(widget.redirectTo != null && value != false){
                   Navigator.popUntil(context, (route) => route.isFirst);
                   Navigator.pushReplacementNamed(context, widget.redirectTo!);
                 }
-                time.cancel();
               }
             }
         );
