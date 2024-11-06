@@ -44,6 +44,20 @@ class KoiApp extends StatelessWidget {
     _isLoading.value = value;
   }
 
+
+  static void showSnackBar(
+      BuildContext context,
+      String content,
+      {SnackBarAction? action}
+      ){
+    ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+    scaffoldMessenger.showSnackBar(SnackBar(
+      content: Text(content),
+      action: action,
+    ),
+    );
+  }
+
   /// menampilkan toast
   ///
   /// **Parameter**
