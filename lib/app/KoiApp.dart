@@ -45,6 +45,7 @@ class KoiApp extends StatelessWidget {
   }
 
 
+  /// menampilkan snackbar.
   static void showSnackBar(
       BuildContext context,
       String content,
@@ -56,6 +57,22 @@ class KoiApp extends StatelessWidget {
       action: action,
     ),
     );
+  }
+
+  /// menampilkan alert dialog sederhana yang hanya terdiri dari teks. gunakan fungsi [showDialog] dari library [flutter/material.dart] untuk menampilkan dialog yang lebih kompleks
+  static Future<void> showAlertDialog(
+      BuildContext context,
+  {
+    String? title,
+    String? content
+  }
+      )async{
+    await showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: title != null ? Text(title): null,
+        content: content != null ? Text(content): null,
+      );
+    });
   }
 
   /// menampilkan toast
