@@ -23,7 +23,8 @@ class KoiApp extends StatelessWidget {
     required this.themeColor,
     this.textTheme = null,
     this.builder = null,
-    this.spinner = null
+    this.spinner = null,
+    this.localizationsDelegates
   }) : super(key: key);
 
   // tambah navigator key
@@ -125,6 +126,8 @@ class KoiApp extends StatelessWidget {
   /// widget yang ditampilkan sebagai overlay jika sedang loading (variable [isLoading] diset true). Jika null widget [Spinner()] akan ditampilkan
   final Widget? spinner;
 
+  final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+
   @override
   Widget build(BuildContext context) {
 
@@ -153,6 +156,7 @@ class KoiApp extends StatelessWidget {
     }
 
     return MaterialApp(
+        localizationsDelegates: localizationsDelegates,
         routes: routes.getRoutes(),
         onGenerateRoute: onGenerateRoute,
         theme: lightTheme,
