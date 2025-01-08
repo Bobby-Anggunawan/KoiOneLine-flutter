@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -125,6 +126,45 @@ class KoiHttp{
 
 
     return RequestResult(rawData: ret, statusCode: response.statusCode);
+  }
+
+  /// jalankan ini jika ingin download file
+  static Future<bool> downloadRequest(String url, String filename, BasicRequestUriParam? uriParam, RequestMethod method, BasicRequestHeader? header, FormRequestBody? body, {String? bodyRaw = null})async{
+    late Request request;
+    if(uriParam != null){
+      request = http.Request(method.name, Uri.parse(url+uriParam.uriParam));
+    }
+    else{
+      request = http.Request(method.name, Uri.parse(url));
+    }
+
+    if(body!=null) request.bodyFields = body.body;
+    else if(bodyRaw != null) request.body = bodyRaw;
+
+    if(header!=null) request.headers.addAll(header.header);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      // Create a file to save the data
+      final file = File(filename);
+
+      // Open a file sink to write data in chunks
+      final sink = file.openWrite();
+
+      // Stream the response bytes to the file sink
+      await response.stream.pipe(sink);
+
+      // Close the sink when done
+      await sink.close();
+
+      print('File downloaded to $filename');
+    } else {
+      return false;
+    }
+
+
+    return true;
   }
 
   /// misalnya mengubah spasi jadi %20 dan sebagainya. Membuat string jadi url yang falid
