@@ -47,7 +47,7 @@ class KoiWgDialogFullscreen extends StatelessWidget {
     return Dialog.fullscreen(
       backgroundColor: backgroundColor ?? context.koiThemeColor.primaryContainer,
       child: Padding(
-        padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+        padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
         child: Column(
           children: [
             // bagian teratas (tombol tutup dan tombol simpan)

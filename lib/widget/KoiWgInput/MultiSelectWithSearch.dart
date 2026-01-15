@@ -195,7 +195,7 @@ class _SheetSearchState extends State<_SheetSearch> {
         mainAxisSize: MainAxisSize.min,
         children: [
 
-          SizedBox(height: context.koiSpacing.autoFromScreenEdge*2,),
+          SizedBox(height: context.koiSpacing.autoPaddingScreen*2,),
 
           Center(
             child: Container(
@@ -205,7 +205,7 @@ class _SheetSearchState extends State<_SheetSearch> {
             ),
           ),
 
-          SizedBox(height: context.koiSpacing.autoFromScreenEdge*2,),
+          SizedBox(height: context.koiSpacing.autoPaddingScreen*2,),
 
           TextField(
             decoration: InputDecoration(

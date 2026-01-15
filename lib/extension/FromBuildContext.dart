@@ -53,7 +53,7 @@ class SpacingSize{
   ///
   /// **Contoh Penggunaan**
   /// * Padding antara label dan border terluar sebuah [Button]
-  final double medium = 12;
+  final double medium = 16;
 
   /// nilainya 16, padding antara panel/widget dengan konteks berbeda. Biasa digunakan oleh perangkat layar kecil seperti mobile
   ///
@@ -61,7 +61,7 @@ class SpacingSize{
   /// * Padding antara tepi layar dan widget pada mobile
   /// * Padding antar paragraf
   /// * Padding antar tombol
-  final double large = 16;
+  final double large = 24;
 
   /// nilainya 24, padding antara panel/widget dengan konteks berbeda. Biasa digunakan oleh perangkat layar besar seperti desktop
   ///
@@ -69,19 +69,39 @@ class SpacingSize{
   /// * Padding antara tepi layar dan widget pada desktop
   /// * Padding antar paragraf
   /// * Padding antar tombol
-  final double largest = 24;
+  final double xlarge = 32;
+
+  final double xxlarge = 48;
+
+  final double xxxlarge = 64;
 
   /// Otomatis pilih nilai padding antara ujung layar dan widget sesuai saran material design
   ///
   /// **Nilai yang dikembalikan**
   /// * kalau di mobile, fungsi ini akan mengembalikan nilai [SpacingSize().large]
   /// * selain mobile, fungsi ini akan mengembalikan nilai [SpacingSize().largest]
-  double get autoFromScreenEdge{
-    if(ScreenBreakpoint.getCurrentBreakpoint == ScreenBreakpoints.phone){
-      return large;
+  double get autoPaddingScreen{
+    switch(ScreenBreakpoint.getCurrentBreakpoint){
+      case ScreenBreakpoints.phone:
+        return small;
+      case ScreenBreakpoints.tablet:
+        return medium;
+      case ScreenBreakpoints.laptop:
+        return large;
+      case ScreenBreakpoints.desktop:
+        return xlarge;
     }
-    else{
-      return largest;
+  }
+  double get autoPaddingPane{
+    switch(ScreenBreakpoint.getCurrentBreakpoint){
+      case ScreenBreakpoints.phone:
+        return small;
+      case ScreenBreakpoints.tablet:
+        return medium;
+      case ScreenBreakpoints.laptop:
+        return large;
+      case ScreenBreakpoints.desktop:
+        return xlarge;
     }
   }
 
@@ -95,7 +115,7 @@ class SpacingSize{
       return large;
     }
     else{
-      return largest;
+      return xlarge;
     }
   }
 

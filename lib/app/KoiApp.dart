@@ -13,12 +13,13 @@ import 'package:koi_one_line/koi_one_line.dart';
 /// **Contoh**
 ///
 /// `main(){runApp(KoiApp(<parameters>))}`
-class KoiApp extends StatelessWidget {
+class KoiApp extends StatefulWidget {
   const KoiApp({
     Key? key,
     this.navigatorKey = null,
     this.onGenerateRoute = null,
     this.initState = null,
+    this.didChangeDependencies = null,
     required this.routes,
     required this.themeColor,
     this.textTheme = null,
@@ -33,6 +34,7 @@ class KoiApp extends StatelessWidget {
 
   /// jalankan fungsi pas halaman ini diinit
   final Function(BuildContext)? initState;
+  final Function? didChangeDependencies;
 
   static ValueNotifier<bool> _isLoading = ValueNotifier(false);
   //start-digunakan toast
@@ -129,52 +131,74 @@ class KoiApp extends StatelessWidget {
   final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
 
   @override
+  State<KoiApp> createState() => _KoiAppState();
+}
+
+class _KoiAppState extends State<KoiApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if(widget.initState !=null){
+      widget.initState!(context);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    
+    if(widget.didChangeDependencies != null){
+      widget.didChangeDependencies!();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     //start-buat ThemeData
     ThemeData lightTheme = ThemeData(
-        colorScheme: themeColor.lightTheme,
-        textTheme: textTheme
+        colorScheme: widget.themeColor.lightTheme,
+        textTheme: widget.textTheme
     );
 
     bool adaDarkTheme = false;
     ThemeData? darkTheme;
-    if(themeColor.darkTheme != null){
+    if(widget.themeColor.darkTheme != null){
       adaDarkTheme = true;
     }
 
     if(adaDarkTheme){
       darkTheme = ThemeData(
-          colorScheme: themeColor.darkTheme,
-          textTheme: textTheme
+          colorScheme: widget.themeColor.darkTheme,
+          textTheme: widget.textTheme
       );
     }
     //end---buat ThemeData
 
-    if(initState !=null){
-      initState!(context);
-    }
-
     return MaterialApp(
-        localizationsDelegates: localizationsDelegates,
-        routes: routes.getRoutes(),
-        onGenerateRoute: onGenerateRoute,
+        localizationsDelegates: widget.localizationsDelegates,
+        routes: widget.routes.getRoutes(),
+        onGenerateRoute: widget.onGenerateRoute,
         theme: lightTheme,
         darkTheme: darkTheme,
-        navigatorKey: navigatorKey,
+        navigatorKey: widget.navigatorKey,
         builder: (context, child){
-          if(builder != null){
-            child = builder!(context, child);
+          if(widget.builder != null){
+            child = widget.builder!(context, child);
           }
           return Stack(
             children: [
               child!,
               //DISINI LETAK SPINNERNYA
               ValueListenableBuilder<bool>(
-                  valueListenable: _isLoading,
+                  valueListenable: KoiApp._isLoading,
                   builder: (BuildContext context, bool value, Widget? child){
                     if(value){
-                      return spinner ?? Container(
+                      return widget.spinner ?? Container(
                         height: KoiLib.getWindowSize.height,
                         width: KoiLib.getWindowSize.width,
                         color: context.koiThemeColor.scrim.withOpacity(0.5),
@@ -190,20 +214,20 @@ class KoiApp extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ValueListenableBuilder<bool>(
-                    valueListenable: _isShowToast,
+                    valueListenable: KoiApp._isShowToast,
                     builder: (BuildContext context, bool value, Widget? child){
                       if(value){
                         return Material(
                           type: MaterialType.transparency,
                           child: Container(
                             padding: EdgeInsets.all(context.koiSpacing.medium),
-                            margin: EdgeInsets.only(bottom: context.koiSpacing.largest),
+                            margin: EdgeInsets.only(bottom: context.koiSpacing.xlarge),
                             decoration: BoxDecoration(
                                 color: context.koiThemeColor.secondary,
                                 borderRadius: BorderRadius.circular(context.koiSpacing.smallest)
                             ),
                             child: Text(
-                              _toastMessage.value,
+                              KoiApp._toastMessage.value,
                               style: TextStyle(
                                   color: context.koiThemeColor.onSecondary
                               ),

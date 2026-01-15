@@ -111,7 +111,7 @@ class _KoiPgFormState extends State<KoiPgForm> {
         children: [
           widget.background,
           Padding(
-            padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+            padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
             child: Center(
               child: SingleChildScrollView(
                 child: Container(

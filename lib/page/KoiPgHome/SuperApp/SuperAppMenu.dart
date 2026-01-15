@@ -66,8 +66,8 @@ class SuperAppMenu extends StatelessWidget {
       crossAxisCount: columnCount,
       children: buildTopMenu,
       childAspectRatio: 1/1,
-      mainAxisSpacing: context.koiSpacing.largest,
-      crossAxisSpacing: context.koiSpacing.largest
+      mainAxisSpacing: context.koiSpacing.xlarge,
+      crossAxisSpacing: context.koiSpacing.xlarge
     );
   }
 }
@@ -111,14 +111,14 @@ class _AllMenu extends StatelessWidget {
       }
 
       // tambah spacing antar kategori
-      buildMenu.add(SizedBox(height: context.koiSpacing.largest,));
+      buildMenu.add(SizedBox(height: context.koiSpacing.xlarge,));
     });
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoFromScreenEdge),
+      padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoPaddingScreen),
       child: ListView(
         children: <Widget>[
-          SizedBox(height: context.koiSpacing.autoFromScreenEdge,),
+          SizedBox(height: context.koiSpacing.autoPaddingScreen,),
           Row(
             children: [
               Expanded(child: SizedBox()),

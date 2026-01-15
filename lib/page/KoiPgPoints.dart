@@ -84,7 +84,7 @@ class _KoiPgPointsState extends State<KoiPgPoints> {
             ),
 
             /// cuma untuk supaya tombol next dan previous tidak terlalu dempet ke bawah
-            SizedBox(height: context.koiSpacing.autoFromScreenEdge,)
+            SizedBox(height: context.koiSpacing.autoPaddingScreen,)
           ],
         )
       ],
@@ -120,7 +120,7 @@ class PointPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+      padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
       child: Column(
         children: [
           Builder(builder: (context){

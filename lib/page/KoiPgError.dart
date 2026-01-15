@@ -69,7 +69,7 @@ class _ErrorForbidden extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
           child: Center(
             child: SingleChildScrollView(
               child: Flex(
@@ -124,7 +124,7 @@ class _ErrorNotFound extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
           child: Center(
             child: SingleChildScrollView(
               child: Flex(
@@ -180,7 +180,7 @@ class _ErrorNotImplemented extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
           child: Center(
             child: SingleChildScrollView(
               child: Flex(
@@ -246,7 +246,7 @@ class _ErrorImATeapot extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
           child: Center(
             child: SingleChildScrollView(
               child: Flex(
@@ -302,7 +302,7 @@ class _Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-          padding: EdgeInsets.all(context.koiSpacing.autoFromScreenEdge),
+          padding: EdgeInsets.all(context.koiSpacing.autoPaddingScreen),
           child: Center(
             child: SingleChildScrollView(
               child: Flex(

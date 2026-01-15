@@ -75,7 +75,7 @@ class SuperApp extends StatelessWidget {
           }),
 
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoFromScreenEdge),
+            padding: EdgeInsets.symmetric(horizontal: context.koiSpacing.autoPaddingScreen),
             child: SingleChildScrollView(
               child: Column(
                 children: [
